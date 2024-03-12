@@ -3,6 +3,8 @@ import { Nunito } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import Navbar from "@/components/navbar";
+import ModalProvider from "@/components/providers/modal-provider";
+import ToastProvider from "@/components/providers/toast-provider";
 
 const font = Nunito({ subsets: ["latin"] });
 
@@ -21,11 +23,12 @@ export default function RootLayout({
       <body className={font.className}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme="light"
           disableTransitionOnChange
         >
           <Navbar />
+          <ModalProvider />
+          <ToastProvider />
           {children}
         </ThemeProvider>
       </body>

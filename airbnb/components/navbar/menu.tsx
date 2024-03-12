@@ -9,10 +9,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { useModal } from "@/hooks/use-modal-store";
 
 type Props = {};
 
 const Menu = (props: Props) => {
+  const { onOpen } = useModal();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -27,8 +30,12 @@ const Menu = (props: Props) => {
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-full">
-        <DropdownMenuItem>Log In</DropdownMenuItem>
-        <DropdownMenuItem>Sign Up</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => onOpen("login")}>
+          Log In
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => onOpen("register")}>
+          Sign Up
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
