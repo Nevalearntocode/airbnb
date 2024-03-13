@@ -1,5 +1,4 @@
-"use client";
-
+// Importing necessary dependencies and components
 import React from "react";
 import { useModal } from "@/hooks/use-modal-store";
 import { AiFillGithub } from "react-icons/ai";
@@ -28,17 +27,21 @@ import { Button } from "../ui/button";
 import Image from "next/image";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useToast } from "../ui/use-toast";
 import toast from "react-hot-toast";
 
-type Props = { open?: boolean };
+// Defining type for the props
+type Props = {};
 
-const RegisterModal = ({ open }: Props) => {
+// Creating RegisterModal component
+const RegisterModal = ({}: Props) => {
+  // Using the useModal hook to manage modal state
   const { isOpen, onClose, type, onOpen } = useModal();
   const router = useRouter();
 
-  const isModalOpen = (type === "register" && isOpen) || open;
+  // Checking if the modal should be open
+  const isModalOpen = type === "register" && isOpen;
 
+  // Initializing form with form validation schema
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -48,23 +51,28 @@ const RegisterModal = ({ open }: Props) => {
     },
   });
 
+  // Checking if form is currently submitting
   const isLoading = form.formState.isSubmitting;
 
+  // Function to handle form submission
   const onSubmit = async (data: z.infer<typeof RegisterSchema>) => {
     try {
-      // await axios.post(`/api/register`, data);
-      console.log(data);
+      // Making POST request to register user
+      await axios.post(`/api/register`, data);
       router.refresh();
       form.reset();
+      // Displaying success message using toast
       toast.success("Account has been created!");
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
-      toast.error("Something went wrong.");
+      // Displaying error message using toast
+      toast.error(`${error.response.data}`);
     } finally {
-      onClose();
+      onClose(); // Closing the modal
     }
   };
 
+  // Rendering the RegisterModal component
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="pb-2">
@@ -86,6 +94,7 @@ const RegisterModal = ({ open }: Props) => {
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex flex-col gap-y-2"
           >
+            {/* Form fields for email, name, and password */}
             <FormField
               control={form.control}
               name="email"
@@ -117,7 +126,7 @@ const RegisterModal = ({ open }: Props) => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>password</FormLabel>
+                  <FormLabel>Password</FormLabel>
                   <FormControl>
                     <Input placeholder="********" type="password" {...field} />
                   </FormControl>
@@ -125,6 +134,7 @@ const RegisterModal = ({ open }: Props) => {
                 </FormItem>
               )}
             />
+            {/* Submit button */}
             <Button variant={`destructive`} className="w-full" type="submit">
               Submit
             </Button>
@@ -133,6 +143,7 @@ const RegisterModal = ({ open }: Props) => {
         <DialogFooter>
           <div className="flex flex-col w-full">
             <div className="flex w-full gap-x-4">
+              {/* Buttons for social login */}
               <Button
                 variant={"outline"}
                 className="w-full flex items-center justify-center"
@@ -148,6 +159,7 @@ const RegisterModal = ({ open }: Props) => {
                 <p className="m-auto">Continue with Github</p>
               </Button>
             </div>
+            {/* Button to switch to login modal */}
             <Button
               variant={"link"}
               onClick={() => {

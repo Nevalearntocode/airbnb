@@ -2,10 +2,13 @@
 
 import React from "react";
 import Menu from "./menu";
+import { User } from "@prisma/client";
 
-type Props = {};
+type Props = {
+  user: User | null;
+};
 
-const UserMenu = (props: Props) => {
+const UserMenu = ({ user }: Props) => {
   return (
     <div className="relative">
       <div className="flex items-center gap-3">
@@ -15,7 +18,7 @@ const UserMenu = (props: Props) => {
         >
           Airbnb your home
         </div>
-        <Menu />
+        <Menu user={user} />
       </div>
     </div>
   );

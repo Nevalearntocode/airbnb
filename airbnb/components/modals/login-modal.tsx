@@ -29,6 +29,7 @@ import Image from "next/image";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { signIn } from "next-auth/react";
 
 type Props = {};
 
@@ -49,18 +50,17 @@ const LoginModal = ({}: Props) => {
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (data: z.infer<typeof LoginSchema>) => {
-    try {
-      // await axios.post(`/api/login`, data);
-      console.log(data);
-      router.refresh();
-      form.reset();
-      toast.success("Welcome to Airbnb");
-    } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong");
-    } finally {
-      onClose();
-    }
+    signIn("credentials", { ...data, redirect: false }).then((callback) => {
+      if (callback?.ok) {
+        toast.success("Welcome to Airbnb");
+        router.refresh();
+        onClose();
+      }
+
+      if (callback?.error) {
+        toast.error(callback.error);
+      }
+    });
   };
 
   return (
@@ -91,7 +91,11 @@ const LoginModal = ({}: Props) => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="username@email.com" {...field} />
+                    <Input
+                      disabled={isLoading}
+                      placeholder="username@email.com"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -104,13 +108,23 @@ const LoginModal = ({}: Props) => {
                 <FormItem>
                   <FormLabel>password</FormLabel>
                   <FormControl>
-                    <Input placeholder="********" type="password" {...field} />
+                    <Input
+                      disabled={isLoading}
+                      placeholder="********"
+                      type="password"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button variant={`destructive`} className="w-full" type="submit">
+            <Button
+              disabled={isLoading}
+              variant={`destructive`}
+              className="w-full"
+              type="submit"
+            >
               Log In
             </Button>
           </form>
@@ -119,6 +133,7 @@ const LoginModal = ({}: Props) => {
           <div className="flex flex-col w-full">
             <div className="flex w-full gap-x-4">
               <Button
+                disabled={isLoading}
                 variant={"outline"}
                 className="w-full flex items-center justify-center"
               >
@@ -126,6 +141,7 @@ const LoginModal = ({}: Props) => {
                 <p className="m-auto">Continue with Google</p>
               </Button>
               <Button
+                disabled={isLoading}
                 variant={"outline"}
                 className="w-full flex items-center justify-center"
               >
@@ -134,6 +150,7 @@ const LoginModal = ({}: Props) => {
               </Button>
             </div>
             <Button
+              disabled={isLoading}
               variant={"link"}
               onClick={() => {
                 onClose();

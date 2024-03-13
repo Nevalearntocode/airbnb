@@ -19,8 +19,16 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
+  hashedPassword  String?
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  favoriteIds   String[]  
+
   accounts      Account[]
-  sessions      Session[]
+  listings      Listing[]
+  reservations  Reservation[]
 }
 
 model Account {
@@ -42,18 +50,40 @@ model Account {
   @@unique([provider, providerAccountId])
 }
 
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+model Listing {
+  id                 String  @id @default(cuid())
+  userId             String
+  user               User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  title              String
+  description        String
+  imageUrl           String
+  category           String
+  roomCounter        Int
+  bathRoomCount      Int
+  guestCounter       Int
+  locationValue      String
+  price              Int
+
+  reservations       Reservation[]
+
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
 }
 
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
+model Reservation {
+  id                 String  @id @default(cuid())
+  userId             String
+  user               User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([identifier, token])
+  listingId          String
+  listing            Listing    @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  startDate          DateTime
+  endDate            DateTime
+
+  totalPrice         Int
+
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
 }

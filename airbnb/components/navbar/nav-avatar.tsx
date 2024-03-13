@@ -5,13 +5,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import Image from "next/image";
 
 type Props = {
-  imageUrl?: string;
+  imageUrl?: string | null;
 };
 
 const NavAvatar = ({ imageUrl }: Props) => {
   return (
     <Avatar>
-      <AvatarImage src={imageUrl} />
+      {imageUrl && <AvatarImage src={imageUrl} />}
       <AvatarFallback>
         <Image
           className="rounded-full"
