@@ -26,7 +26,6 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import Image from "next/image";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { signIn } from "next-auth/react";
@@ -136,6 +135,7 @@ const LoginModal = ({}: Props) => {
                 disabled={isLoading}
                 variant={"outline"}
                 className="w-full flex items-center justify-center"
+                onClick={() => signIn("google")}
               >
                 <FcGoogle size={18} />
                 <p className="m-auto">Continue with Google</p>
@@ -144,6 +144,7 @@ const LoginModal = ({}: Props) => {
                 disabled={isLoading}
                 variant={"outline"}
                 className="w-full flex items-center justify-center"
+                onClick={() => signIn("github")}
               >
                 <AiFillGithub size={18} />
                 <p className="m-auto">Continue with Github</p>
