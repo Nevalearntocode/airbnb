@@ -4,6 +4,7 @@ import Logo from "./logo";
 import Search from "./search";
 import UserMenu from "./user-menu";
 import { Profile } from "@prisma/client";
+import Categories from "./categories";
 
 type Props = {
   profile: Profile | null;
@@ -21,6 +22,7 @@ const Navbar = ({ profile }: Props) => {
           </div>
         </Container>
       </div>
+      <Categories />
     </div>
   );
 };
