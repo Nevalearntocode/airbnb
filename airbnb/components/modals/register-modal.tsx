@@ -66,12 +66,11 @@ const RegisterModal = ({}: Props) => {
       form.reset();
       // Displaying success message using toast
       toast.success("Account has been created!");
+      onClose();
     } catch (error: any) {
       console.log(error);
       // Displaying error message using toast
       toast.error(`${error.response.data}`);
-    } finally {
-      onClose(); // Closing the modal
     }
   };
 
@@ -105,7 +104,11 @@ const RegisterModal = ({}: Props) => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="username@email.com" {...field} />
+                    <Input
+                      disabled={isLoading}
+                      placeholder="username@email.com"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -118,7 +121,11 @@ const RegisterModal = ({}: Props) => {
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="john doe" {...field} />
+                    <Input
+                      disabled={isLoading}
+                      placeholder="john doe"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -131,14 +138,24 @@ const RegisterModal = ({}: Props) => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="********" type="password" {...field} />
+                    <Input
+                      disabled={isLoading}
+                      placeholder="********"
+                      type="password"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
             {/* Submit button */}
-            <Button variant={`destructive`} className="w-full" type="submit">
+            <Button
+              disabled={isLoading}
+              variant={`destructive`}
+              className="w-full"
+              type="submit"
+            >
               Submit
             </Button>
           </form>
@@ -148,7 +165,7 @@ const RegisterModal = ({}: Props) => {
             <div className="flex w-full gap-x-4">
               {/* Buttons for social login */}
               <Button
-                variant={"outline"}
+                disabled={isLoading}
                 className="w-full flex items-center justify-center"
                 onClick={() => signIn("google")}
               >
@@ -156,7 +173,7 @@ const RegisterModal = ({}: Props) => {
                 <p className="m-auto">Continue with Google</p>
               </Button>
               <Button
-                variant={"outline"}
+                disabled={isLoading}
                 className="w-full flex items-center justify-center"
                 onClick={() => signIn("github")}
               >
@@ -166,6 +183,7 @@ const RegisterModal = ({}: Props) => {
             </div>
             {/* Button to switch to login modal */}
             <Button
+              disabled={isLoading}
               variant={"link"}
               onClick={() => {
                 onClose();

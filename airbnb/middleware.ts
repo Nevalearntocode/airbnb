@@ -1,15 +1,21 @@
 import { withAuth } from "next-auth/middleware";
-import { PublicRoutes, ApiRoutePrefix, AuthRoutes } from "./routes";
+import {
+  PublicRoutes,
+  ApiRoutePrefix,
+  AuthRoutes,
+  ProtectedRoutes,
+} from "./routes";
 
 export default withAuth(
   function middleware(req) {
     const { nextUrl } = req;
+    // check if user is logged in by the existence of token
     const isLoggedIn = !!req.nextauth.token;
 
     const isPublicRoute = PublicRoutes.includes(nextUrl.pathname);
     const isApiAuthRoute = nextUrl.pathname.startsWith(ApiRoutePrefix);
     const isAuthRoute = AuthRoutes.includes(nextUrl.pathname);
-    // const isRegisterRoute = nextUrl.pathname.startsWith(RegisterRoute);
+    const isProtectedRoute = ProtectedRoutes.includes(nextUrl.pathname);
 
     if (isAuthRoute) {
       return null;
@@ -18,8 +24,12 @@ export default withAuth(
     if (isApiAuthRoute) {
       return null;
     }
-
+    // if user is not logged in and url is not a public route, redirect user to `/`
     if (!isPublicRoute && !isLoggedIn) {
+      return Response.redirect(new URL(`/`, nextUrl));
+    }
+    // if user is logged in and route doesn't exits, redirect user to homepage
+    if (!isProtectedRoute && !isPublicRoute && isLoggedIn) {
       return Response.redirect(new URL(`/`, nextUrl));
     }
   },

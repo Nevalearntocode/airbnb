@@ -49,7 +49,7 @@ const LoginModal = ({}: Props) => {
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (data: z.infer<typeof LoginSchema>) => {
-    signIn("credentials", { ...data, redirect: true }).then((callback) => {
+    signIn("credentials", { ...data, redirect: false }).then((callback) => {
       if (callback?.ok) {
         toast.success("Welcome to Airbnb");
         router.refresh();
@@ -134,7 +134,6 @@ const LoginModal = ({}: Props) => {
             <div className="flex w-full gap-x-4">
               <Button
                 disabled={isLoading}
-                variant={"outline"}
                 className="w-full flex items-center justify-center"
                 onClick={() => signIn("google")}
               >
@@ -143,7 +142,6 @@ const LoginModal = ({}: Props) => {
               </Button>
               <Button
                 disabled={isLoading}
-                variant={"outline"}
                 className="w-full flex items-center justify-center"
                 onClick={() => signIn("github")}
               >

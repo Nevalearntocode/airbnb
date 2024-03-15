@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-type ModalType = "register" | "login";
+type ModalType = "register" | "login" | "rent";
 
 type ModalStore = {
   type: ModalType | null;

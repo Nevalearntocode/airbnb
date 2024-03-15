@@ -29,7 +29,7 @@ const Menu = ({ profile }: Props) => {
     <>
       {!profile ? (
         <div
-          className="p-4 md:py-1 md:px-2 border-[1px] border-neutral-200 flex items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition"
+          className="p-4 md:py-1 md:px-2 border-[1px] border-neutral-200 flex items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition dark:border-none"
           onClick={() => onOpen("login")}
         >
           <div className="hidden md:block">
@@ -40,13 +40,13 @@ const Menu = ({ profile }: Props) => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <div
-              className="p-4 md:py-1 md:px-2 border-[1px] border-neutral-200 flex items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition"
+              className="p-4 md:py-1 md:px-2 border-[1px] border-neutral-200 flex items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition dark:border-none dark:hover:bg-neutral-800"
               onClick={() => onOpen("login")}
             >
-              <AiOutlineMenu />
               <div className="hidden md:block">
                 <NavAvatar imageUrl={profile.image} />
               </div>
+              <AiOutlineMenu />
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent side="bottom" align="center">
@@ -75,7 +75,7 @@ const Menu = ({ profile }: Props) => {
               My properties
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => {}}
+              onClick={() => onOpen("rent")}
               className="w-auto items-center justify-between flex"
             >
               Airbnb my home
