@@ -17,6 +17,7 @@ const Logo = (props: Props) => {
       width={100}
       src={`/images/logo.png`}
       priority={true}
+      onClick={() => router.push(`/`)}
     />
   );
 };

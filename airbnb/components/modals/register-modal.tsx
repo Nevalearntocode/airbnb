@@ -59,7 +59,9 @@ const RegisterModal = ({}: Props) => {
   const onSubmit = async (data: z.infer<typeof RegisterSchema>) => {
     try {
       // Making POST request to register user
-      await axios.post(`/api/register`, data);
+      await axios.post(`/api/register`, data).then(() => {
+        signIn("credentials", { redirect: true, ...data });
+      });
       router.refresh();
       form.reset();
       // Displaying success message using toast

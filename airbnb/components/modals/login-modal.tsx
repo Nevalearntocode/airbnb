@@ -49,7 +49,7 @@ const LoginModal = ({}: Props) => {
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (data: z.infer<typeof LoginSchema>) => {
-    signIn("credentials", { ...data, redirect: false }).then((callback) => {
+    signIn("credentials", { ...data, redirect: true }).then((callback) => {
       if (callback?.ok) {
         toast.success("Welcome to Airbnb");
         router.refresh();

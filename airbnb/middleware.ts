@@ -7,8 +7,17 @@ export default withAuth(
     const isLoggedIn = !!req.nextauth.token;
 
     const isPublicRoute = PublicRoutes.includes(nextUrl.pathname);
-    // const isApiAuthRoute = nextUrl.pathname.startsWith(ApiRoutePrefix);
-    // const isAuthRoute = AuthRoutes.includes(nextUrl.pathname);
+    const isApiAuthRoute = nextUrl.pathname.startsWith(ApiRoutePrefix);
+    const isAuthRoute = AuthRoutes.includes(nextUrl.pathname);
+    // const isRegisterRoute = nextUrl.pathname.startsWith(RegisterRoute);
+
+    if (isAuthRoute) {
+      return null;
+    }
+
+    if (isApiAuthRoute) {
+      return null;
+    }
 
     if (!isPublicRoute && !isLoggedIn) {
       return Response.redirect(new URL(`/`, nextUrl));
