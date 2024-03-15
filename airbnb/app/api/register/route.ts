@@ -32,6 +32,12 @@ export async function POST(req: Request) {
         email,
         name,
         hashedPassword,
+        profile: {
+          create: {
+            email,
+            name,
+          },
+        },
       },
     });
 

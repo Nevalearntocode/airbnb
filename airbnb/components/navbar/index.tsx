@@ -3,13 +3,13 @@ import Container from "../container";
 import Logo from "./logo";
 import Search from "./search";
 import UserMenu from "./user-menu";
-import { User } from "@prisma/client";
+import { Profile } from "@prisma/client";
 
 type Props = {
-  user: User | null;
+  profile: Profile | null;
 };
 
-const Navbar = ({ user }: Props) => {
+const Navbar = ({ profile }: Props) => {
   return (
     <div className="fixed w-full bg-white dark:bg-black z-10 shadow-sm">
       <div className="py-4 border-b-[1px]">
@@ -17,7 +17,7 @@ const Navbar = ({ user }: Props) => {
           <div className="flex flex-row items-center justify-between gap-3 md:gap-0">
             <Logo />
             <Search />
-            <UserMenu user={user} />
+            <UserMenu profile={profile} />
           </div>
         </Container>
       </div>

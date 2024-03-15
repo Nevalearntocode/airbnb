@@ -6,6 +6,8 @@ import Navbar from "@/components/navbar";
 import ModalProvider from "@/components/providers/modal-provider";
 import ToastProvider from "@/components/providers/toast-provider";
 import getCurrentUser from "./actions/getCurrentUser";
+import { getCurrentProfile } from "@/lib/current-profile";
+import { InitialProfile } from "@/lib/initial-profile";
 
 const font = Nunito({ subsets: ["latin"] });
 
@@ -19,7 +21,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const currentUser = await getCurrentUser();
+  const profile = await InitialProfile();
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -29,7 +31,7 @@ export default async function RootLayout({
           defaultTheme="light"
           disableTransitionOnChange
         >
-          <Navbar user={currentUser} />
+          <Navbar profile={profile} />
           <ModalProvider />
           <ToastProvider />
           {children}

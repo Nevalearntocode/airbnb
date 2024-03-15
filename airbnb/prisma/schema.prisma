@@ -24,11 +24,29 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  favoriteIds   String[]  
+  profile       Profile?
 
   accounts      Account[]
+}
+
+model Profile {
+  id            String    @id @default(cuid())
+
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+
+  userId        String @unique
+  user          User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  favoriteIds   String[]  
   listings      Listing[]
   reservations  Reservation[]
+
 }
 
 model Account {
@@ -52,8 +70,8 @@ model Account {
 
 model Listing {
   id                 String  @id @default(cuid())
-  userId             String
-  user               User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  profileId             String
+  profile               Profile    @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   title              String
   description        String
@@ -73,8 +91,8 @@ model Listing {
 
 model Reservation {
   id                 String  @id @default(cuid())
-  userId             String
-  user               User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  profileId             String
+  profile               Profile    @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   listingId          String
   listing            Listing    @relation(fields: [listingId], references: [id], onDelete: Cascade)

@@ -53,6 +53,7 @@ const LoginModal = ({}: Props) => {
       if (callback?.ok) {
         toast.success("Welcome to Airbnb");
         router.refresh();
+        router.back();
         onClose();
       }
 

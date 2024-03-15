@@ -10,15 +10,15 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { useModal } from "@/hooks/use-modal-store";
-import { User } from "next-auth";
 import { LogOut } from "lucide-react";
 import { signOut } from "next-auth/react";
+import { Profile } from "@prisma/client";
 
 type Props = {
-  user: User | null;
+  profile: Profile | null;
 };
 
-const Menu = ({ user }: Props) => {
+const Menu = ({ profile }: Props) => {
   const { onOpen } = useModal();
 
   const onLogOut = () => {
@@ -27,7 +27,7 @@ const Menu = ({ user }: Props) => {
 
   return (
     <>
-      {!user ? (
+      {!profile ? (
         <div
           className="p-4 md:py-1 md:px-2 border-[1px] border-neutral-200 flex items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition"
           onClick={() => onOpen("login")}
@@ -45,7 +45,7 @@ const Menu = ({ user }: Props) => {
             >
               <AiOutlineMenu />
               <div className="hidden md:block">
-                <NavAvatar imageUrl={user.image} />
+                <NavAvatar imageUrl={profile.image} />
               </div>
             </div>
           </DropdownMenuTrigger>
