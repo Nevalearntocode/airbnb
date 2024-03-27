@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -18,6 +18,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import CountrySelect from '../rent/country-select';
+import dynamic from 'next/dynamic';
 
 const locationSchema = z.object({
   flag: z.string(),
@@ -90,7 +91,7 @@ const RentModal = ({}: Props) => {
       location: {
         flag: '',
         label: '',
-        latlng: [],
+        latlng: [51, -0.09],
         region: '',
         value: '',
       },
@@ -104,6 +105,14 @@ const RentModal = ({}: Props) => {
 
   const formCategory = form.watch('category');
   const formLocation = form.watch('location');
+
+  const Map = useMemo(
+    () =>
+      dynamic(() => import('../map'), {
+        ssr: false,
+      }),
+    [formLocation],
+  );
 
   const setCustomValue = (id: FormKeys, value: any) => {
     form.setValue(id, value, {
@@ -154,10 +163,13 @@ const RentModal = ({}: Props) => {
             </div>
           )}
           {step === STEPS.LOCATION && (
-            <CountrySelect
-              onChange={(value) => setCustomValue('location', value)}
-              value={formLocation}
-            />
+            <div>
+              <CountrySelect
+                onChange={(value) => setCustomValue('location', value)}
+                value={formLocation}
+              />
+              <Map center={formLocation.latlng} />
+            </div>
           )}
         </div>
         <DialogFooter className="gap- mt-2 flex w-full items-center">

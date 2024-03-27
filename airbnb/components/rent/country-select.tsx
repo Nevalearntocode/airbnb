@@ -16,7 +16,6 @@ const CountrySelect = ({ value, onChange }: Props) => {
   return (
     <div>
       <Select
-        className="dark:text-zinc-300"
         placeholder="Anywhere"
         isClearable
         options={getAll()}
@@ -24,8 +23,8 @@ const CountrySelect = ({ value, onChange }: Props) => {
         onChange={(value) => onChange(value as LocationType)}
         formatOptionLabel={(option: LocationType) => (
           <div className="flex items-center gap-3">
-            <div>{option.flag}</div>
-            <div>
+            <div className="dark:text-white">{option.flag}</div>
+            <div className="dark:text-white">
               {option.label},
               <span className="ml-1 text-neutral-500 dark:text-zinc-400">
                 {option.region}
@@ -36,7 +35,7 @@ const CountrySelect = ({ value, onChange }: Props) => {
         classNames={{
           control: () => 'border-2 dark:bg-zinc-800',
           input: () => 'text-lg dark:text-zinc-400',
-          option: () => 'text-lg dark:bg-zinc-800',
+          option: () => 'text-lg dark:bg-zinc-800 dark:text-white',
           noOptionsMessage: () => 'text-lg dark:bg-zinc-800 dark:text-zinc-400',
         }}
         theme={(theme) => ({
@@ -44,7 +43,7 @@ const CountrySelect = ({ value, onChange }: Props) => {
           borderRadius: 6,
           colors: {
             ...theme.colors,
-            primary: 'black',
+            primary: '#fd6063',
             primary25: '#ffe4e6',
           },
         })}
