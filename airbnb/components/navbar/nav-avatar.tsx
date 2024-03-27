@@ -10,9 +10,9 @@ type Props = {
 
 const NavAvatar = ({ imageUrl }: Props) => {
   return (
-    <Avatar>
-      {imageUrl && <AvatarImage src={imageUrl} />}
-      <AvatarFallback>
+    <Avatar className="">
+      {imageUrl && <AvatarImage src={imageUrl} className="" />}
+      <AvatarFallback className="">
         <Image
           className="rounded-full"
           height={30}

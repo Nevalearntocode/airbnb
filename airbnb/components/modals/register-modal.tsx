@@ -77,12 +77,12 @@ const RegisterModal = ({}: Props) => {
   // Rendering the RegisterModal component
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
-      <DialogContent className="pb-2">
+      <DialogContent className="max-w-360px flex max-h-[1/4] w-[400px] flex-col items-center justify-center gap-y-4 px-4 pb-2">
         <div className="flex flex-col items-center justify-center">
           <DialogHeader>
             <Image
               alt="logo"
-              className="hidden md:block cursor-pointer w-auto h-auto"
+              className="h-auto w-auto cursor-pointer"
               height={100}
               width={100}
               src={`/images/logo.png`}
@@ -94,7 +94,7 @@ const RegisterModal = ({}: Props) => {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-col gap-y-2"
+            className="flex w-full flex-col gap-y-4 px-8"
           >
             {/* Form fields for email, name, and password */}
             <FormField
@@ -153,35 +153,15 @@ const RegisterModal = ({}: Props) => {
             <Button
               disabled={isLoading}
               variant={`destructive`}
-              className="w-full"
+              className="mt-4 w-full"
               type="submit"
             >
               Submit
             </Button>
           </form>
         </Form>
-        <DialogFooter>
-          <div className="flex flex-col w-full">
-            <div className="flex w-full gap-x-4">
-              {/* Buttons for social login */}
-              <Button
-                disabled={isLoading}
-                className="w-full flex items-center justify-center"
-                onClick={() => signIn("google")}
-              >
-                <FcGoogle size={18} />
-                <p className="m-auto">Continue with Google</p>
-              </Button>
-              <Button
-                disabled={isLoading}
-                className="w-full flex items-center justify-center"
-                onClick={() => signIn("github")}
-              >
-                <AiFillGithub size={18} />
-                <p className="m-auto">Continue with Github</p>
-              </Button>
-            </div>
-            {/* Button to switch to login modal */}
+        <DialogFooter className="mb-4 w-full px-8">
+          <div className="flex w-full flex-col">
             <Button
               disabled={isLoading}
               variant={"link"}
@@ -191,7 +171,7 @@ const RegisterModal = ({}: Props) => {
               }}
               size={"sm"}
             >
-              Log in with existing account.
+              Log in with existing account or socials.
             </Button>
           </div>
         </DialogFooter>

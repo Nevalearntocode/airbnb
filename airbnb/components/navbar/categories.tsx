@@ -22,7 +22,7 @@ const Categories = (props: Props) => {
 
   return (
     <Container>
-      <div className="pt-4 grid grid-flow-col xl:grid-rows-1 md:grid-rows-2 grid-rows-3">
+      <div className="grid grid-flow-col grid-rows-3 pt-4 md:grid-rows-2 xl:grid-rows-1">
         {categories.map((item) => (
           <CategoryBox
             key={item.label}

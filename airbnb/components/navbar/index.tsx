@@ -12,8 +12,8 @@ type Props = {
 
 const Navbar = ({ profile }: Props) => {
   return (
-    <div className="fixed w-full bg-white dark:bg-black z-10 shadow-sm">
-      <div className="py-4 border-b-[1px]">
+    <div className="fixed z-10 w-full bg-white shadow-sm dark:bg-black">
+      <div className="border-b-[1px] py-4">
         <Container>
           <div className="flex flex-row items-center justify-between gap-3 md:gap-0">
             <Logo />

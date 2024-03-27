@@ -12,7 +12,7 @@ const Logo = (props: Props) => {
   return (
     <Image
       alt="logo"
-      className="hidden md:block cursor-pointer w-auto h-auto"
+      className="hidden h-auto w-auto cursor-pointer md:block"
       height={100}
       width={100}
       src={`/images/logo.png`}

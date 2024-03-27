@@ -65,12 +65,12 @@ const LoginModal = ({}: Props) => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
-      <DialogContent className="pb-2">
+      <DialogContent className="max-w-360px flex max-h-[1/4] w-[400px] flex-col items-center justify-center gap-y-4 px-4 pb-2">
         <div className="flex flex-col items-center justify-center">
           <DialogHeader>
             <Image
               alt="logo"
-              className="hidden md:block cursor-pointer w-auto h-auto"
+              className="hidden h-auto w-auto cursor-pointer md:block"
               height={100}
               width={100}
               src={`/images/logo.png`}
@@ -82,7 +82,7 @@ const LoginModal = ({}: Props) => {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-col gap-y-2"
+            className="flex w-full flex-col gap-y-4 px-8"
           >
             <FormField
               control={form.control}
@@ -122,31 +122,31 @@ const LoginModal = ({}: Props) => {
             <Button
               disabled={isLoading}
               variant={`destructive`}
-              className="w-full"
+              className="mt-4 w-full"
               type="submit"
             >
               Log In
             </Button>
           </form>
         </Form>
-        <DialogFooter>
-          <div className="flex flex-col w-full">
-            <div className="flex w-full gap-x-4">
+        <DialogFooter className="my-4 w-full px-8">
+          <div className="flex w-full flex-col">
+            <div className="mb-4 flex w-full gap-x-4">
               <Button
                 disabled={isLoading}
-                className="w-full flex items-center justify-center"
+                className="flex w-full items-center justify-center"
                 onClick={() => signIn("google")}
               >
                 <FcGoogle size={18} />
-                <p className="m-auto">Continue with Google</p>
+                <p className="m-auto">Google</p>
               </Button>
               <Button
                 disabled={isLoading}
-                className="w-full flex items-center justify-center"
+                className="flex w-full items-center justify-center"
                 onClick={() => signIn("github")}
               >
                 <AiFillGithub size={18} />
-                <p className="m-auto">Continue with Github</p>
+                <p className="m-auto">Github</p>
               </Button>
             </div>
             <Button

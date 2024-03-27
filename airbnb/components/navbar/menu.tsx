@@ -29,10 +29,10 @@ const Menu = ({ profile }: Props) => {
     <>
       {!profile ? (
         <div
-          className="p-4 md:py-1 md:px-2 border-[1px] border-neutral-200 flex items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition dark:border-none"
+          className="flex cursor-pointer items-center gap-3 rounded-full border-[2px] border-neutral-200 transition hover:shadow-md dark:border-neutral-800 dark:hover:bg-neutral-800 dark:hover:shadow-md dark:hover:shadow-neutral-200/20 md:p-4 md:px-2 md:py-1"
           onClick={() => onOpen("login")}
         >
-          <div className="hidden md:block">
+          <div className="">
             <NavAvatar />
           </div>
         </div>
@@ -40,7 +40,7 @@ const Menu = ({ profile }: Props) => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <div
-              className="p-4 md:py-1 md:px-2 border-[1px] border-neutral-200 flex items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition dark:border-none dark:hover:bg-neutral-800"
+              className="flex cursor-pointer items-center gap-3 rounded-full border-[2px] border-neutral-200 p-4 transition hover:shadow-md dark:border-neutral-800 dark:hover:bg-neutral-800 md:px-2 md:py-1"
               onClick={() => onOpen("login")}
             >
               <div className="hidden md:block">
@@ -52,40 +52,40 @@ const Menu = ({ profile }: Props) => {
           <DropdownMenuContent side="bottom" align="center">
             <DropdownMenuItem
               onClick={() => {}}
-              className="w-auto items-center justify-between flex"
+              className="flex w-auto items-center justify-between"
             >
               My trips
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {}}
-              className="w-auto items-center justify-between flex"
+              className="flex w-auto items-center justify-between"
             >
               My favorites
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {}}
-              className="w-auto items-center justify-between flex"
+              className="flex w-auto items-center justify-between"
             >
               My reservations
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {}}
-              className="w-auto items-center justify-between flex"
+              className="flex w-auto items-center justify-between"
             >
               My properties
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => onOpen("rent")}
-              className="w-auto items-center justify-between flex"
+              className="flex w-auto items-center justify-between"
             >
               Airbnb my home
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={onLogOut}
-              className="w-auto items-center justify-between flex text-rose-400"
+              className="flex w-auto items-center justify-between text-rose-400"
             >
               Log Out
-              <LogOut className="w-4 h-4" />
+              <LogOut className="h-4 w-4" />
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

@@ -40,7 +40,7 @@ const CategoryBox = ({ description, icon: Icon, label, selected }: Props) => {
         url: `/`,
         query: updatedQuery,
       },
-      { skipNull: true }
+      { skipNull: true },
     );
 
     router.push(url);
@@ -49,15 +49,15 @@ const CategoryBox = ({ description, icon: Icon, label, selected }: Props) => {
   return (
     <div
       className={cn(
-        "flex flex-col items-center justify-center gap-2 p-3 border-b-2 hover:text-neutral-800 transition cursor-pointer",
+        "flex cursor-pointer flex-col items-center justify-center gap-2 border-b-2 p-3 transition hover:text-neutral-800",
         selected
           ? "border-b-neutral-800 text-neutral-800"
-          : "border-transparent text-neutral-500"
+          : "border-transparent text-neutral-500",
       )}
       onClick={handleClick}
     >
       <Icon size={26} />
-      <div className="font-medium text-sm">{label}</div>
+      <div className="text-sm font-medium">{label}</div>
     </div>
   );
 };
