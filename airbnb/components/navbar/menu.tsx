@@ -43,13 +43,13 @@ const Menu = ({ profile }: Props) => {
               className="flex cursor-pointer items-center gap-3 rounded-full border-[2px] border-neutral-200 p-4 transition hover:shadow-md dark:border-neutral-800 dark:hover:bg-neutral-800 md:px-2 md:py-1"
               onClick={() => onOpen("login")}
             >
+              <AiOutlineMenu />
               <div className="hidden md:block">
                 <NavAvatar imageUrl={profile.image} />
               </div>
-              <AiOutlineMenu />
             </div>
           </DropdownMenuTrigger>
-          <DropdownMenuContent side="bottom" align="center">
+          <DropdownMenuContent side="bottom" align="end">
             <DropdownMenuItem
               onClick={() => {}}
               className="flex w-auto items-center justify-between"
@@ -78,7 +78,7 @@ const Menu = ({ profile }: Props) => {
               onClick={() => onOpen("rent")}
               className="flex w-auto items-center justify-between"
             >
-              Airbnb my home
+              Airbnb your home
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={onLogOut}
