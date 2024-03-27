@@ -13,16 +13,27 @@ import { useModal } from '@/hooks/use-modal-store';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 import { categories } from '@/constants';
-import CategoryInput from '../category-input';
+import CategoryInput from '../rent/category-input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
+import CountrySelect from '../rent/country-select';
+
+const locationSchema = z.object({
+  flag: z.string(),
+  label: z.string(),
+  latlng: z.array(z.number()),
+  region: z.string(),
+  value: z.string(),
+});
+
+export type LocationType = z.infer<typeof locationSchema>;
 
 const formSchema = z.object({
   category: z.string(),
   title: z.string(),
   description: z.string(),
-  location: z.string(),
+  location: locationSchema,
   imageUrl: z.string(),
   guestCount: z.number(),
   roomCount: z.number(),
@@ -76,7 +87,13 @@ const RentModal = ({}: Props) => {
       category: '',
       title: '',
       description: '',
-      location: '',
+      location: {
+        flag: '',
+        label: '',
+        latlng: [],
+        region: '',
+        value: '',
+      },
       imageUrl: '',
       guestCount: 1,
       roomCount: 1,
@@ -86,8 +103,7 @@ const RentModal = ({}: Props) => {
   });
 
   const formCategory = form.watch('category');
-
-  console.log(typeof formSchema);
+  const formLocation = form.watch('location');
 
   const setCustomValue = (id: FormKeys, value: any) => {
     form.setValue(id, value, {
@@ -111,35 +127,48 @@ const RentModal = ({}: Props) => {
         <div className="flex flex-col justify-center gap-8">
           <div className="flex flex-col">
             <h1 className="text-2xl font-bold">
-              Which of these best describe your place?
+              {step === STEPS.CATEGORY &&
+                'Which of these best describe your place?'}
+              {step === STEPS.LOCATION && 'Where is your place located?'}
             </h1>
-            <DialogDescription>Pick a category</DialogDescription>
+            <DialogDescription>
+              {step === STEPS.CATEGORY && 'Pick a category'}
+              {step === STEPS.LOCATION && 'Help guests find you!'}
+            </DialogDescription>
           </div>
-          <div className="grid max-h-[50vh] grid-cols-1 gap-3 overflow-y-auto md:grid-cols-2">
-            {categories.map((category) => (
-              <div key={category.label} className="col-span-1">
-                <CategoryInput
-                  onClick={(formCategory) =>
-                    setCustomValue('category', formCategory)
-                  }
-                  description={category.description}
-                  selected={formCategory === category.label}
-                  icon={category.icon}
-                  label={category.label}
-                />
-              </div>
-            ))}
-          </div>
+          {step === STEPS.CATEGORY && (
+            <div className="grid max-h-[50vh] grid-cols-1 gap-3 overflow-y-auto md:grid-cols-2">
+              {categories.map((category) => (
+                <div key={category.label} className="col-span-1">
+                  <CategoryInput
+                    onClick={(formCategory) =>
+                      setCustomValue('category', formCategory)
+                    }
+                    description={category.description}
+                    selected={formCategory === category.label}
+                    icon={category.icon}
+                    label={category.label}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+          {step === STEPS.LOCATION && (
+            <CountrySelect
+              onChange={(value) => setCustomValue('location', value)}
+              value={formLocation}
+            />
+          )}
         </div>
-        <DialogFooter className="flex w-full items-center gap-2">
+        <DialogFooter className="gap- mt-2 flex w-full items-center">
           {step !== STEPS.CATEGORY && (
-            <Button variant={'outline'} className="w-1/4" onClick={onBack}>
+            <Button variant={'outline'} className="w-2/4" onClick={onBack}>
               Back
             </Button>
           )}
           <Button
             variant={'destructive'}
-            className="w-1/4"
+            className="w-2/4"
             onClick={step < STEPS.PRICE ? onNext : () => {}}
           >
             {step === STEPS.PRICE ? 'Create' : 'Next'}
