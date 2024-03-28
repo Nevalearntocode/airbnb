@@ -24,10 +24,10 @@ type Props = {
 const Map = ({ center }: Props) => {
   return (
     <MapContainer
-      center={(center as L.LatLngExpression) || [51, -0.09]}
+      center={center as L.LatLngExpression}
       zoom={center ? 4 : 2}
       scrollWheelZoom={false}
-      className="h-[35vh] rounded-lg"
+      className="h-[40vh] rounded-lg"
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

@@ -19,6 +19,17 @@ import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import CountrySelect from '../rent/country-select';
 import dynamic from 'next/dynamic';
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+} from '../ui/form';
+import { cn } from '@/lib/utils';
+import Counter from '../rent/counter';
+import ImageUpload from '../rent/image-upload';
 
 const locationSchema = z.object({
   flag: z.string(),
@@ -41,17 +52,6 @@ const formSchema = z.object({
   bathRoomCount: z.number(),
   price: z.number(),
 });
-
-type FormKeys =
-  | 'category'
-  | 'title'
-  | 'description'
-  | 'location'
-  | 'imageUrl'
-  | 'guestCount'
-  | 'roomCount'
-  | 'bathRoomCount'
-  | 'price';
 
 type Props = {};
 
@@ -103,24 +103,13 @@ const RentModal = ({}: Props) => {
     },
   });
 
-  const formCategory = form.watch('category');
-  const formLocation = form.watch('location');
-
   const Map = useMemo(
     () =>
       dynamic(() => import('../map'), {
         ssr: false,
       }),
-    [formLocation],
+    [form.getFieldState('location')],
   );
-
-  const setCustomValue = (id: FormKeys, value: any) => {
-    form.setValue(id, value, {
-      shouldDirty: true,
-      shouldTouch: true,
-      shouldValidate: true,
-    });
-  };
 
   const onSubmit = async (data: formType) => {
     console.log(data);
@@ -133,59 +122,176 @@ const RentModal = ({}: Props) => {
           <DialogTitle>Airbnb your home</DialogTitle>
         </DialogHeader>
         <Separator />
-        <div className="flex flex-col justify-center gap-8">
-          <div className="flex flex-col">
-            <h1 className="text-2xl font-bold">
-              {step === STEPS.CATEGORY &&
-                'Which of these best describe your place?'}
-              {step === STEPS.LOCATION && 'Where is your place located?'}
-            </h1>
-            <DialogDescription>
-              {step === STEPS.CATEGORY && 'Pick a category'}
-              {step === STEPS.LOCATION && 'Help guests find you!'}
-            </DialogDescription>
-          </div>
-          {step === STEPS.CATEGORY && (
-            <div className="grid max-h-[50vh] grid-cols-1 gap-3 overflow-y-auto md:grid-cols-2">
-              {categories.map((category) => (
-                <div key={category.label} className="col-span-1">
-                  <CategoryInput
-                    onClick={(formCategory) =>
-                      setCustomValue('category', formCategory)
-                    }
-                    description={category.description}
-                    selected={formCategory === category.label}
-                    icon={category.icon}
-                    label={category.label}
-                  />
-                </div>
-              ))}
-            </div>
-          )}
-          {step === STEPS.LOCATION && (
-            <div>
-              <CountrySelect
-                onChange={(value) => setCustomValue('location', value)}
-                value={formLocation}
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            {/* category form */}
+            {step === STEPS.CATEGORY && (
+              <FormField
+                control={form.control}
+                name="category"
+                render={({ field }) => (
+                  <FormItem className="">
+                    <FormLabel>
+                      Which of these best describe your place?
+                    </FormLabel>
+                    <FormDescription>Pick a category.</FormDescription>
+                    <FormControl>
+                      <div className="grid max-h-[50vh] grid-cols-1 gap-3 overflow-y-auto md:grid-cols-2">
+                        {categories.map((category) => (
+                          <div key={category.label} className="col-span-1">
+                            <CategoryInput
+                              onClick={(formCategory) => {
+                                if (formCategory === field.value) {
+                                  field.onChange('');
+                                } else field.onChange(formCategory);
+                              }}
+                              description={category.description}
+                              selected={field.value === category.label}
+                              icon={category.icon}
+                              label={category.label}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </FormControl>
+                  </FormItem>
+                )}
               />
-              <Map center={formLocation.latlng} />
-            </div>
-          )}
-        </div>
-        <DialogFooter className="gap- mt-2 flex w-full items-center">
-          {step !== STEPS.CATEGORY && (
-            <Button variant={'outline'} className="w-2/4" onClick={onBack}>
-              Back
-            </Button>
-          )}
-          <Button
-            variant={'destructive'}
-            className="w-2/4"
-            onClick={step < STEPS.PRICE ? onNext : () => {}}
-          >
-            {step === STEPS.PRICE ? 'Create' : 'Next'}
-          </Button>
-        </DialogFooter>
+            )}
+            {/* location form */}
+            {step === STEPS.LOCATION && (
+              <FormField
+                control={form.control}
+                name="location"
+                render={({ field }) => (
+                  <FormItem className="h-[407px]">
+                    <FormLabel>Where is your place located?</FormLabel>
+                    <FormDescription>Help guests find you!</FormDescription>
+                    <div className="flex flex-col gap-y-4">
+                      <CountrySelect
+                        onChange={field.onChange}
+                        value={field.value}
+                      />
+                      <Map
+                        center={field.value ? field.value.latlng : [51, -0.09]}
+                      />
+                    </div>
+                  </FormItem>
+                )}
+              />
+            )}
+            {/* info form */}
+            {step === STEPS.INFO && (
+              <div className="flex h-[407px] flex-col gap-y-10">
+                <FormField
+                  control={form.control}
+                  name="guestCount"
+                  render={({ field }) => (
+                    <FormItem className="">
+                      <FormLabel>Share some basics about your place.</FormLabel>
+                      <FormDescription>
+                        What amenities do you have?
+                      </FormDescription>
+                      <Counter
+                        onChange={field.onChange}
+                        title="Guests"
+                        subtitle="Let us know how many people you're planning for."
+                        value={field.value}
+                      />
+                    </FormItem>
+                  )}
+                />
+                <Separator />
+                <FormField
+                  control={form.control}
+                  name="roomCount"
+                  render={({ field }) => (
+                    <FormItem className="">
+                      <Counter
+                        onChange={field.onChange}
+                        title="Bedrooms"
+                        subtitle="How many bedrooms do you have?"
+                        value={field.value}
+                      />
+                    </FormItem>
+                  )}
+                />
+                <Separator />
+                <FormField
+                  control={form.control}
+                  name="bathRoomCount"
+                  render={({ field }) => (
+                    <FormItem className="">
+                      <Counter
+                        onChange={field.onChange}
+                        title="Bathrooms"
+                        subtitle="Choose the number of bathrooms for your place."
+                        value={field.value}
+                      />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            )}
+            {/* images form */}
+            {step === STEPS.IMAGES && (
+              <FormField
+                control={form.control}
+                name="imageUrl"
+                render={({ field }) => (
+                  <FormItem className="h-[407px]">
+                    <FormLabel>Add a photo of your place.</FormLabel>
+                    <FormDescription>
+                      Show guests what your place look like!
+                    </FormDescription>
+                    <div className="h-full w-full pt-4">
+                      <ImageUpload
+                        onChange={field.onChange}
+                        value={field.value}
+                        endpoint="yourHomeImage"
+                      />
+                    </div>
+                  </FormItem>
+                )}
+              />
+            )}
+            <DialogFooter className="mt-2">
+              <div className="flex w-full items-center gap-4">
+                {step !== STEPS.CATEGORY ? (
+                  <Button
+                    variant={'outline'}
+                    className="w-2/4"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onBack();
+                    }}
+                  >
+                    Back
+                  </Button>
+                ) : (
+                  <div className="w-2/4" />
+                )}
+                <Button
+                  variant={'destructive'}
+                  className={cn(
+                    'ml-auto w-2/4',
+                    step === STEPS.CATEGORY && 'p-0',
+                  )}
+                  onClick={
+                    step < STEPS.PRICE
+                      ? (e) => {
+                          e.preventDefault();
+                          onNext();
+                        }
+                      : () => {}
+                  }
+                >
+                  {step === STEPS.PRICE ? 'Create' : 'Next'}
+                </Button>
+              </div>
+            </DialogFooter>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );

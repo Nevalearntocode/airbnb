@@ -25,7 +25,7 @@ const CountrySelect = ({ value, onChange }: Props) => {
           <div className="flex items-center gap-3">
             <div className="dark:text-white">{option.flag}</div>
             <div className="dark:text-white">
-              {option.label},
+              {option.label}
               <span className="ml-1 text-neutral-500 dark:text-zinc-400">
                 {option.region}
               </span>
