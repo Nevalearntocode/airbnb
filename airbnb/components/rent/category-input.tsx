@@ -21,7 +21,10 @@ const CategoryInput = ({
 }: Props) => {
   return (
     <div
-      onClick={() => onClick(label)}
+      onClick={(e) => {
+        e.preventDefault();
+        onClick(label);
+      }}
       className={cn(
         'flex cursor-pointer flex-col gap-3 rounded-xl border-2 border-neutral-200 p-4 transition hover:border-black dark:border-neutral-800',
         selected && 'border-black dark:border-white',

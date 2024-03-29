@@ -1,19 +1,17 @@
 // Importing necessary dependencies and components
-import React from "react";
-import { useModal } from "@/hooks/use-modal-store";
-import { AiFillGithub } from "react-icons/ai";
-import { FcGoogle } from "react-icons/fc";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-import { RegisterSchema } from "@/schemas";
-import { zodResolver } from "@hookform/resolvers/zod";
+import React from 'react';
+import { useModal } from '@/hooks/use-modal-store';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
+import { RegisterSchema } from '@/schemas';
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
-} from "../ui/dialog";
+} from '../ui/dialog';
 import {
   Form,
   FormControl,
@@ -21,14 +19,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import Image from "next/image";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
-import { signIn } from "next-auth/react";
+} from '../ui/form';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
+import Image from 'next/image';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
+import { toast } from 'sonner';
 
 // Defining type for the props
 type Props = {};
@@ -40,15 +38,15 @@ const RegisterModal = ({}: Props) => {
   const router = useRouter();
 
   // Checking if the modal should be open
-  const isModalOpen = type === "register" && isOpen;
+  const isModalOpen = type === 'register' && isOpen;
 
   // Initializing form with form validation schema
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
-      email: "",
-      name: "",
-      password: "",
+      email: '',
+      name: '',
+      password: '',
     },
   });
 
@@ -60,12 +58,12 @@ const RegisterModal = ({}: Props) => {
     try {
       // Making POST request to register user
       await axios.post(`/api/register`, data).then(() => {
-        signIn("credentials", { redirect: true, ...data });
+        signIn('credentials', { redirect: true, ...data });
       });
       router.refresh();
       form.reset();
       // Displaying success message using toast
-      toast.success("Account has been created!");
+      toast.success('Account has been created!');
       onClose();
     } catch (error: any) {
       console.log(error);
@@ -164,12 +162,12 @@ const RegisterModal = ({}: Props) => {
           <div className="flex w-full flex-col">
             <Button
               disabled={isLoading}
-              variant={"link"}
+              variant={'link'}
               onClick={() => {
                 onClose();
-                onOpen("login");
+                onOpen('login');
               }}
-              size={"sm"}
+              size={'sm'}
             >
               Log in with existing account or socials.
             </Button>

@@ -70,16 +70,16 @@ model Account {
 
 model Listing {
   id                 String  @id @default(cuid())
-  profileId             String
-  profile               Profile    @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profileId          String
+  profile            Profile    @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   title              String
   description        String
   imageUrl           String
   category           String
-  roomCounter        Int
+  roomCount          Int
   bathRoomCount      Int
-  guestCounter       Int
+  guestCount         Int
   locationValue      String
   price              Int
 

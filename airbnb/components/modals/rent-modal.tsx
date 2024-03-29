@@ -4,7 +4,6 @@ import React, { useMemo, useState } from 'react';
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -26,31 +25,53 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from '../ui/form';
 import { cn } from '@/lib/utils';
 import Counter from '../rent/counter';
 import ImageUpload from '../rent/image-upload';
+import { Input } from '../ui/input';
+import { DollarSign } from 'lucide-react';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 const locationSchema = z.object({
-  flag: z.string(),
-  label: z.string(),
-  latlng: z.array(z.number()),
-  region: z.string(),
-  value: z.string(),
+  flag: z.string().min(1, { message: 'Flag field is required.' }),
+  label: z.string().min(1, { message: 'Location label is required.' }),
+  latlng: z
+    .array(z.number())
+    .min(1, { message: 'Latitude and longitude are required.' }),
+  region: z.string().min(1, { message: 'Region field is required.' }),
+  value: z.string().min(1, { message: 'Location value is required.' }),
 });
 
 export type LocationType = z.infer<typeof locationSchema>;
 
 const formSchema = z.object({
-  category: z.string(),
-  title: z.string(),
-  description: z.string(),
+  category: z
+    .string()
+    .min(1, { message: 'Please select a category for your listing.' }),
+  title: z.string().min(1, { message: 'Give your listing a catchy title.' }),
+  description: z
+    .string()
+    .min(1, { message: 'Describe your listing in detail.' }),
   location: locationSchema,
-  imageUrl: z.string(),
-  guestCount: z.number(),
-  roomCount: z.number(),
-  bathRoomCount: z.number(),
-  price: z.number(),
+  imageUrl: z
+    .string()
+    .min(1, { message: 'Add an image URL to showcase your listing.' }),
+  guestCount: z
+    .number()
+    .positive({ message: 'Guest count must be a positive number.' }),
+  roomCount: z
+    .number()
+    .positive({ message: 'Room count must be a positive number.' }),
+  bathRoomCount: z
+    .number()
+    .positive({ message: 'Bathroom count must be a positive number.' }),
+  price: z
+    .number()
+    .positive({ message: 'Enter a positive price for your listing.' }),
 });
 
 type Props = {};
@@ -70,9 +91,10 @@ type formType = z.infer<typeof formSchema>;
 
 const RentModal = ({}: Props) => {
   const { isOpen, onClose, type } = useModal();
+  const router = useRouter();
   const isModalOpen = type === 'rent' && isOpen;
 
-  const [step, setStep] = useState(STEPS.CATEGORY);
+  const [step, setStep] = useState<STEPS>(STEPS.CATEGORY);
 
   const onBack = () => {
     setStep((value) => value - 1);
@@ -103,6 +125,8 @@ const RentModal = ({}: Props) => {
     },
   });
 
+  const isLoading = form.formState.isSubmitting;
+
   const Map = useMemo(
     () =>
       dynamic(() => import('../map'), {
@@ -112,7 +136,17 @@ const RentModal = ({}: Props) => {
   );
 
   const onSubmit = async (data: formType) => {
-    console.log(data);
+    try {
+      await axios.post('/api/listings', data);
+      toast.success('Listing success');
+      router.refresh();
+      onClose();
+      setStep(STEPS.CATEGORY);
+      form.reset();
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error.message);
+    }
   };
 
   return (
@@ -131,10 +165,12 @@ const RentModal = ({}: Props) => {
                 name="category"
                 render={({ field }) => (
                   <FormItem className="">
-                    <FormLabel>
+                    <FormLabel className="text-2xl font-bold">
                       Which of these best describe your place?
                     </FormLabel>
-                    <FormDescription>Pick a category.</FormDescription>
+                    <FormDescription className="text-sm italic">
+                      Pick a category.
+                    </FormDescription>
                     <FormControl>
                       <div className="grid max-h-[50vh] grid-cols-1 gap-3 overflow-y-auto md:grid-cols-2">
                         {categories.map((category) => (
@@ -164,9 +200,13 @@ const RentModal = ({}: Props) => {
                 control={form.control}
                 name="location"
                 render={({ field }) => (
-                  <FormItem className="h-[407px]">
-                    <FormLabel>Where is your place located?</FormLabel>
-                    <FormDescription>Help guests find you!</FormDescription>
+                  <FormItem className="h-[409px]">
+                    <FormLabel className="text-2xl font-bold">
+                      Where is your place located?
+                    </FormLabel>
+                    <FormDescription className="text-sm italic">
+                      Help guests find you!
+                    </FormDescription>
                     <div className="flex flex-col gap-y-4">
                       <CountrySelect
                         onChange={field.onChange}
@@ -182,14 +222,16 @@ const RentModal = ({}: Props) => {
             )}
             {/* info form */}
             {step === STEPS.INFO && (
-              <div className="flex h-[407px] flex-col gap-y-10">
+              <div className="flex h-[409px] flex-col gap-y-10">
                 <FormField
                   control={form.control}
                   name="guestCount"
                   render={({ field }) => (
                     <FormItem className="">
-                      <FormLabel>Share some basics about your place.</FormLabel>
-                      <FormDescription>
+                      <FormLabel className="text-2xl font-bold">
+                        Share some basics about your place.
+                      </FormLabel>
+                      <FormDescription className="text-sm italic">
                         What amenities do you have?
                       </FormDescription>
                       <Counter
@@ -239,10 +281,12 @@ const RentModal = ({}: Props) => {
                 control={form.control}
                 name="imageUrl"
                 render={({ field }) => (
-                  <FormItem className="h-[407px]">
-                    <FormLabel>Add a photo of your place.</FormLabel>
-                    <FormDescription>
-                      Show guests what your place look like!
+                  <FormItem className="h-[409px]">
+                    <FormLabel className="text-2xl font-bold">
+                      Add a photo of your place.
+                    </FormLabel>
+                    <FormDescription className="text-sm italic">
+                      Show guests what your place looks like!
                     </FormDescription>
                     <div className="h-full w-full pt-4">
                       <ImageUpload
@@ -250,27 +294,105 @@ const RentModal = ({}: Props) => {
                         value={field.value}
                         endpoint="yourHomeImage"
                       />
+                      <FormMessage />
                     </div>
                   </FormItem>
                 )}
               />
             )}
+            {/* description form */}
+            {step === STEPS.DESCRIPTION && (
+              <div className="mb-8 flex flex-col gap-y-8">
+                <FormField
+                  control={form.control}
+                  name="title"
+                  render={({ field }) => (
+                    <FormItem className="">
+                      <div className="">
+                        <FormLabel className="text-2xl font-bold">
+                          How would you describe your place?
+                        </FormLabel>
+                        <FormDescription className="text-sm italic">
+                          Short and sweet works best!
+                        </FormDescription>
+                      </div>
+                      <FormControl>
+                        <Input
+                          placeholder="Title"
+                          disabled={isLoading}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem className="">
+                      <FormControl>
+                        <Input
+                          placeholder="Description"
+                          disabled={isLoading}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            )}
+            {/* price form */}
+            {step === STEPS.PRICE && (
+              <div className="mb-8">
+                <FormField
+                  control={form.control}
+                  name="price"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col gap-y-4">
+                      <div>
+                        <FormLabel>Now, set your price.</FormLabel>
+                        <FormDescription>
+                          How much do you charge per night?
+                        </FormDescription>
+                      </div>
+                      <FormControl>
+                        <div className="relative flex w-auto items-center">
+                          <Input
+                            {...field}
+                            className="p-6"
+                            onChange={(e) =>
+                              field.onChange(Number(e.target.value))
+                            }
+                          />
+                          <DollarSign className="absolute left-1 h-4 w-4 opacity-75" />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            )}
             <DialogFooter className="mt-2">
               <div className="flex w-full items-center gap-4">
-                {step !== STEPS.CATEGORY ? (
-                  <Button
-                    variant={'outline'}
-                    className="w-2/4"
-                    onClick={(e) => {
-                      e.preventDefault();
+                <Button
+                  variant={'outline'}
+                  className="w-2/4"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (step === STEPS.CATEGORY) {
+                      onClose();
+                    } else {
                       onBack();
-                    }}
-                  >
-                    Back
-                  </Button>
-                ) : (
-                  <div className="w-2/4" />
-                )}
+                    }
+                  }}
+                >
+                  Back
+                </Button>
                 <Button
                   variant={'destructive'}
                   className={cn(
@@ -283,7 +405,7 @@ const RentModal = ({}: Props) => {
                           e.preventDefault();
                           onNext();
                         }
-                      : () => {}
+                      : form.handleSubmit(onSubmit)
                   }
                 >
                   {step === STEPS.PRICE ? 'Create' : 'Next'}

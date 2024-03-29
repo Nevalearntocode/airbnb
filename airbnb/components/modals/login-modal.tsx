@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import React from "react";
-import { useModal } from "@/hooks/use-modal-store";
-import { AiFillGithub } from "react-icons/ai";
-import { FcGoogle } from "react-icons/fc";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-import { LoginSchema } from "@/schemas";
-import { zodResolver } from "@hookform/resolvers/zod";
+import React from 'react';
+import { useModal } from '@/hooks/use-modal-store';
+import { AiFillGithub } from 'react-icons/ai';
+import { FcGoogle } from 'react-icons/fc';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
+import { LoginSchema } from '@/schemas';
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
-} from "../ui/dialog";
+} from '../ui/dialog';
 import {
   Form,
   FormControl,
@@ -22,13 +22,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
-import { signIn } from "next-auth/react";
+} from '../ui/form';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
+import { toast } from 'sonner';
 
 type Props = {};
 
@@ -36,22 +36,22 @@ const LoginModal = ({}: Props) => {
   const { isOpen, onClose, type, onOpen } = useModal();
   const router = useRouter();
 
-  const isModalOpen = type === "login" && isOpen;
+  const isModalOpen = type === 'login' && isOpen;
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
   });
 
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (data: z.infer<typeof LoginSchema>) => {
-    signIn("credentials", { ...data, redirect: false }).then((callback) => {
+    signIn('credentials', { ...data, redirect: false }).then((callback) => {
       if (callback?.ok) {
-        toast.success("Welcome to Airbnb");
+        toast.success('Welcome to Airbnb');
         router.refresh();
         router.back();
         onClose();
@@ -135,7 +135,7 @@ const LoginModal = ({}: Props) => {
               <Button
                 disabled={isLoading}
                 className="flex w-full items-center justify-center"
-                onClick={() => signIn("google")}
+                onClick={() => signIn('google')}
               >
                 <FcGoogle size={18} />
                 <p className="m-auto">Google</p>
@@ -143,7 +143,7 @@ const LoginModal = ({}: Props) => {
               <Button
                 disabled={isLoading}
                 className="flex w-full items-center justify-center"
-                onClick={() => signIn("github")}
+                onClick={() => signIn('github')}
               >
                 <AiFillGithub size={18} />
                 <p className="m-auto">Github</p>
@@ -151,12 +151,12 @@ const LoginModal = ({}: Props) => {
             </div>
             <Button
               disabled={isLoading}
-              variant={"link"}
+              variant={'link'}
               onClick={() => {
                 onClose();
-                onOpen("register");
+                onOpen('register');
               }}
-              size={"sm"}
+              size={'sm'}
             >
               Create a new account
             </Button>

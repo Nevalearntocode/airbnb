@@ -1,4 +1,3 @@
-i want to return a new NextResponse for each missing property extracted from req.json()
 import { getCurrentProfile } from '@/lib/current-profile';
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
@@ -7,6 +6,7 @@ export async function POST(req: Request) {
   try {
     const profile = await getCurrentProfile();
 
+    const body = await req.json();
     const {
       category,
       title,
@@ -17,14 +17,34 @@ export async function POST(req: Request) {
       roomCount,
       bathRoomCount,
       price,
-    } = await req.json();
+    } = body;
 
     if (!profile) {
       return new NextResponse('Unauthorized', { status: 401 });
     }
 
-    
+    Object.keys(body).forEach((value: any) => {
+      if (!body[value]) {
+        return new NextResponse(`${value} is required.`, { status: 400 });
+      }
+    });
 
+    const listing = await db.listing.create({
+      data: {
+        title,
+        description,
+        imageUrl,
+        category,
+        roomCount,
+        bathRoomCount,
+        guestCount,
+        locationValue: location.value,
+        price: parseInt(price, 10),
+        profileId: profile.id,
+      },
+    });
+
+    return NextResponse.json(listing);
   } catch (error) {
     console.log('[LISTING_POST]', error);
     return new NextResponse('Internal Error', { status: 500 });

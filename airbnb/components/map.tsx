@@ -27,7 +27,7 @@ const Map = ({ center }: Props) => {
       center={center as L.LatLngExpression}
       zoom={center ? 4 : 2}
       scrollWheelZoom={false}
-      className="h-[40vh] rounded-lg"
+      className="h-64 w-full rounded-lg"
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
