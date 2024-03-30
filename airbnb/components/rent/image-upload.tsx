@@ -17,14 +17,14 @@ const ImageUpload = ({ onChange, value, endpoint }: Props) => {
 
   if (value && fileType !== 'pdf') {
     return (
-      <div className="relative flex max-h-[80%] justify-center border-2">
+      <div className="relative flex justify-center border-2">
         <div>
           <Image
             src={value}
             alt="your_home"
             height={720}
             width={720}
-            className="h-full w-full object-contain"
+            className="h-full w-full object-fill"
           />
         </div>
         <Button

@@ -71,9 +71,10 @@ model Account {
 model Listing {
   id                 String  @id @default(cuid())
   profileId          String
-  profile            Profile    @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profile            Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   title              String
+  slug               String @unique
   description        String
   imageUrl           String
   category           String
@@ -83,6 +84,7 @@ model Listing {
   locationValue      String
   price              Int
 
+  counter            Int    @default(0)
   reservations       Reservation[]
 
   createdAt          DateTime  @default(now())

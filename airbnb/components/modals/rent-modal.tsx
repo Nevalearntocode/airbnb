@@ -127,6 +127,8 @@ const RentModal = ({}: Props) => {
 
   const isLoading = form.formState.isSubmitting;
 
+  const hasErrors = Object.keys(form.formState.errors).length > 0;
+
   const Map = useMemo(
     () =>
       dynamic(() => import('../map'), {
@@ -371,7 +373,12 @@ const RentModal = ({}: Props) => {
                           <DollarSign className="absolute left-1 h-4 w-4 opacity-75" />
                         </div>
                       </FormControl>
-                      <FormMessage />
+                      {hasErrors && (
+                        <p className="text-rose-500 dark:text-rose-900">
+                          Please fill all {field.value ? 'previous' : 'the'}
+                          fields before submiting.
+                        </p>
+                      )}
                     </FormItem>
                   )}
                 />
@@ -394,6 +401,7 @@ const RentModal = ({}: Props) => {
                   Back
                 </Button>
                 <Button
+                  disabled={hasErrors && step === STEPS.PRICE}
                   variant={'destructive'}
                   className={cn(
                     'ml-auto w-2/4',
@@ -405,7 +413,7 @@ const RentModal = ({}: Props) => {
                           e.preventDefault();
                           onNext();
                         }
-                      : form.handleSubmit(onSubmit)
+                      : () => {}
                   }
                 >
                   {step === STEPS.PRICE ? 'Create' : 'Next'}

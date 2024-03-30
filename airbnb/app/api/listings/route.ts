@@ -29,12 +29,41 @@ export async function POST(req: Request) {
       }
     });
 
+    const counter = await db.listing.findFirst({
+      where: {
+        title,
+      },
+      select: {
+        counter: true,
+      },
+    });
+
+    let newCounter = counter?.counter ? counter?.counter + 1 : 1;
+
+    const baseSlug = title.toLowerCase().replace(/\s+/g, '-');
+
+    let uniqueSlug = baseSlug;
+    let conflictFound = false;
+
+    do {
+      const existingList = await db.listing.findFirst({
+        where: { slug: uniqueSlug },
+      });
+
+      conflictFound = existingList !== null;
+      if (conflictFound) {
+        uniqueSlug = `${baseSlug}-${newCounter}`;
+        newCounter++;
+      }
+    } while (conflictFound);
+
     const listing = await db.listing.create({
       data: {
         title,
         description,
         imageUrl,
         category,
+        slug: uniqueSlug,
         roomCount,
         bathRoomCount,
         guestCount,

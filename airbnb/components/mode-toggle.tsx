@@ -1,12 +1,17 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { Moon, Sun } from "lucide-react";
-import { useTheme } from "next-themes";
+import * as React from 'react';
+import { Moon, Sun } from 'lucide-react';
+import { useTheme } from 'next-themes';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
+import { Switch } from './ui/switch';
 
-export function ModeToggle() {
+type Props = {
+  mode: 'switch' | 'button';
+};
+
+export function ModeToggle({ mode }: Props) {
   const { setTheme, theme } = useTheme();
   const [isMounted, setIsMounted] = React.useState(false);
 
@@ -15,10 +20,10 @@ export function ModeToggle() {
   });
 
   const onToggle = () => {
-    if (theme === "dark") {
-      setTheme("light");
+    if (theme === 'dark') {
+      setTheme('light');
     } else {
-      setTheme("dark");
+      setTheme('dark');
     }
   };
 
@@ -27,17 +32,24 @@ export function ModeToggle() {
   }
 
   return (
-    <Button
-      variant="outline"
-      size="icon"
-      onClick={onToggle}
-      className="rounded-full"
-    >
-      {theme === "dark" ? (
-        <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-      ) : (
-        <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+    <>
+      {mode === 'switch' && (
+        <Switch checked={theme === 'dark'} onClick={onToggle} />
       )}
-    </Button>
+      {mode === 'button' && (
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={onToggle}
+          className="rounded-full"
+        >
+          {theme === 'dark' ? (
+            <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+          ) : (
+            <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+          )}
+        </Button>
+      )}
+    </>
   );
 }

@@ -1,10 +1,10 @@
-import { withAuth } from "next-auth/middleware";
+import { withAuth } from 'next-auth/middleware';
 import {
   PublicRoutes,
   ApiRoutePrefix,
   AuthRoutes,
   ProtectedRoutes,
-} from "./routes";
+} from './routes';
 
 export default withAuth(
   function middleware(req) {
@@ -12,7 +12,9 @@ export default withAuth(
     // check if user is logged in by the existence of token
     const isLoggedIn = !!req.nextauth.token;
 
-    const isPublicRoute = PublicRoutes.includes(nextUrl.pathname);
+    const isPublicRoute =
+      PublicRoutes.includes(nextUrl.pathname) ||
+      nextUrl.pathname.startsWith('/listings');
     const isApiAuthRoute = nextUrl.pathname.startsWith(ApiRoutePrefix);
     const isAuthRoute = AuthRoutes.includes(nextUrl.pathname);
     const isProtectedRoute = ProtectedRoutes.includes(nextUrl.pathname);
@@ -40,9 +42,9 @@ export default withAuth(
         return true;
       },
     },
-  }
+  },
 );
 
 export const config = {
-  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+  matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
 };

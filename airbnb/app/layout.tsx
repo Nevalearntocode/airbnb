@@ -34,7 +34,7 @@ export default async function RootLayout({
         >
           <Navbar profile={profile} />
           <ModalProvider />
-          {children}
+          <main>{children}</main>
           <Toaster />
         </ThemeProvider>
       </body>

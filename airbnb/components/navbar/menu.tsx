@@ -1,18 +1,19 @@
-"use client";
+'use client';
 
-import React from "react";
-import { AiOutlineMenu } from "react-icons/ai";
-import NavAvatar from "./nav-avatar";
+import React from 'react';
+import { AiOutlineMenu } from 'react-icons/ai';
+import NavAvatar from './nav-avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { useModal } from "@/hooks/use-modal-store";
-import { LogOut } from "lucide-react";
-import { signOut } from "next-auth/react";
-import { Profile } from "@prisma/client";
+} from '../ui/dropdown-menu';
+import { useModal } from '@/hooks/use-modal-store';
+import { LogOut } from 'lucide-react';
+import { signOut } from 'next-auth/react';
+import { Profile } from '@prisma/client';
+import { ModeToggle } from '../mode-toggle';
 
 type Props = {
   profile: Profile | null;
@@ -30,7 +31,7 @@ const Menu = ({ profile }: Props) => {
       {!profile ? (
         <div
           className="flex cursor-pointer items-center gap-3 rounded-full border-[2px] border-neutral-200 transition hover:shadow-md dark:border-neutral-800 dark:hover:bg-neutral-800 dark:hover:shadow-md dark:hover:shadow-neutral-200/20 md:p-4 md:px-2 md:py-1"
-          onClick={() => onOpen("login")}
+          onClick={() => onOpen('login')}
         >
           <div className="">
             <NavAvatar />
@@ -41,15 +42,21 @@ const Menu = ({ profile }: Props) => {
           <DropdownMenuTrigger asChild>
             <div
               className="flex cursor-pointer items-center gap-3 rounded-full border-[2px] border-neutral-200 p-4 transition hover:shadow-md dark:border-neutral-800 dark:hover:bg-neutral-800 md:px-2 md:py-1"
-              onClick={() => onOpen("login")}
+              onClick={() => onOpen('login')}
             >
-              <AiOutlineMenu />
+              <AiOutlineMenu className="text-black dark:text-white" />
               <div className="hidden md:block">
                 <NavAvatar imageUrl={profile.image} />
               </div>
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent side="bottom" align="end">
+            <DropdownMenuItem
+              onClick={() => {}}
+              className="flex w-full items-center justify-between"
+            >
+              <ModeToggle mode="switch" />
+            </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {}}
               className="flex w-auto items-center justify-between"
@@ -75,7 +82,7 @@ const Menu = ({ profile }: Props) => {
               My properties
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => onOpen("rent")}
+              onClick={() => onOpen('rent')}
               className="flex w-auto items-center justify-between"
             >
               Airbnb your home
