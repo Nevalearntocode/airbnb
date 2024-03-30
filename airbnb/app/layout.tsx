@@ -5,7 +5,7 @@ import { ThemeProvider } from '@/components/providers/theme-provider';
 import Navbar from '@/components/navbar';
 import ModalProvider from '@/components/providers/modal-provider';
 import { InitialProfile } from '@/lib/initial-profile';
-import { Toaster } from '@/components/ui/toaster';
+import { Toaster } from '@/components/ui/sonner';
 
 const font = Nunito({ subsets: ['latin'] });
 
@@ -34,8 +34,8 @@ export default async function RootLayout({
         >
           <Navbar profile={profile} />
           <ModalProvider />
-          <main>{children}</main>
           <Toaster />
+          <main>{children}</main>
         </ThemeProvider>
       </body>
     </html>

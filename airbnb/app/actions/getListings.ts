@@ -8,6 +8,11 @@ export default async function getListings() {
       },
       include: {
         reservations: true,
+        favoriteProfiles: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
 

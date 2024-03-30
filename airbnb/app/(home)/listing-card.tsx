@@ -3,29 +3,42 @@
 import useCountries from '@/hooks/use-country';
 import { Listing, Profile, Reservation } from '@prisma/client';
 import { useRouter } from 'next/navigation';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { format } from 'date-fns';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { cn } from '@/lib/utils';
+import { toast } from 'sonner';
+import axios from 'axios';
+import { useModal } from '@/hooks/use-modal-store';
 
 type Props = {
   Listing: Listing & {
     reservations: Reservation[];
+    favoriteProfiles: {
+      id: string;
+    }[];
   };
   profile: Profile | null;
+  isFav: boolean;
 };
 
 const formatResult = (start: string, end: string) => {
   return `${format(start, 'PP')} - ${format(end, 'PP')}`;
 };
 
-const ListingCard = ({ Listing, profile }: Props) => {
+const ListingCard = ({ Listing, profile, isFav }: Props) => {
   const router = useRouter();
   const { getByValue } = useCountries();
   const location = getByValue(Listing.locationValue);
-  const [favorited, setFavorited] = useState(false);
+  const [favorited, setFavorited] = useState(isFav);
+  const { onOpen } = useModal();
+
+  useEffect(() => {
+    setFavorited(isFav);
+    console.log('render');
+  }, [isFav]);
 
   const handleCancel = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -40,6 +53,14 @@ const ListingCard = ({ Listing, profile }: Props) => {
       return result;
     }
   }, [Listing]);
+
+  const onFavorite = async () => {
+    try {
+      await axios.patch(`/api/listings/${Listing.slug}/favorite`);
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
 
   return (
     <div
@@ -58,12 +79,18 @@ const ListingCard = ({ Listing, profile }: Props) => {
             className="h-full w-full object-cover transition duration-1000 group-hover:scale-110"
           />
           <Button
-            className="absolute right-0 top-0 bg-transparent hover:bg-transparent"
+            className="lg: absolute right-0 top-0 bg-transparent hover:bg-transparent"
             variant={'ghost'}
             size={'icon'}
             onClick={(e) => {
               e.stopPropagation();
-              setFavorited(!favorited);
+              if (!profile) {
+                toast.info('You need to login to favorite a place');
+                onOpen('login');
+              } else {
+                onFavorite();
+                setFavorited(!favorited);
+              }
             }}
           >
             <AiOutlineHeart size={28} className="absolute fill-white" />
@@ -89,7 +116,6 @@ const ListingCard = ({ Listing, profile }: Props) => {
             {Listing.reservations && <p className="font-light">night</p>}
           </div>
         </div>
-        
       </div>
     </div>
   );

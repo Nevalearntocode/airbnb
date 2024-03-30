@@ -17,8 +17,9 @@ export default withAuth(
       nextUrl.pathname.startsWith('/listings');
     const isApiAuthRoute = nextUrl.pathname.startsWith(ApiRoutePrefix);
     const isAuthRoute = AuthRoutes.includes(nextUrl.pathname);
-    const isProtectedRoute = ProtectedRoutes.includes(nextUrl.pathname);
-
+    const isProtectedRoute =
+      ProtectedRoutes.includes(nextUrl.pathname) ||
+      nextUrl.pathname.startsWith('/api/listings');
     if (isAuthRoute) {
       return null;
     }

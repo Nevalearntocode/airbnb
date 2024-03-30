@@ -21,11 +21,18 @@ export default async function Home() {
   }
 
   return (
-    <div className="pb-20 pt-28">
+    <div className="h-full pb-20 pt-8">
       <Container>
-        <div className="grid grid-cols-1 gap-8 pt-24 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
           {listing.map((list) => (
-            <ListingCard key={list.id} Listing={list} profile={profile} />
+            <ListingCard
+              key={list.id}
+              Listing={list}
+              profile={profile}
+              isFav={list.favoriteProfiles.some(
+                (favProfile) => favProfile.id === profile?.id,
+              )}
+            />
           ))}
         </div>
       </Container>
