@@ -1,17 +1,19 @@
-"use client";
+'use client';
 
-import React from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import Image from "next/image";
+import React from 'react';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import Image from 'next/image';
+import { cn } from '@/lib/utils';
 
 type Props = {
   imageUrl?: string | null;
+  className?: string;
 };
 
-const NavAvatar = ({ imageUrl }: Props) => {
+const NavAvatar = ({ imageUrl, className }: Props) => {
   return (
     <Avatar className="">
-      {imageUrl && <AvatarImage src={imageUrl} className="" />}
+      {imageUrl && <AvatarImage src={imageUrl} className={cn('', className)} />}
       <AvatarFallback className="">
         <Image
           className="rounded-full"

@@ -14,7 +14,7 @@ export default withAuth(
 
     const isPublicRoute =
       PublicRoutes.includes(nextUrl.pathname) ||
-      nextUrl.pathname.startsWith('/listings');
+      nextUrl.pathname.startsWith('/listings/');
     const isApiAuthRoute = nextUrl.pathname.startsWith(ApiRoutePrefix);
     const isAuthRoute = AuthRoutes.includes(nextUrl.pathname);
     const isProtectedRoute =

@@ -34,7 +34,7 @@ const ListingHeader = ({
         title={title}
         subtitle={`${location?.region}, ${location?.label}`}
       />
-      <div className="relative aspect-video max-h-[464px] overflow-hidden xl:px-12">
+      <div className="relative aspect-video max-h-[464px] overflow-hidden">
         <Image
           alt="image"
           src={image}
@@ -42,7 +42,7 @@ const ListingHeader = ({
           width={720}
           className="h-full w-full rounded-xl"
         />
-        <div className="absolute right-1 top-0 xl:right-12">
+        <div className="absolute right-1 top-0">
           <HeartToggle isFav={isFav} profile={currentProfile} slug={slug} />
         </div>
       </div>

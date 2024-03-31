@@ -2,9 +2,17 @@
 
 import React, { useMemo } from 'react';
 import { Listing, Profile, Reservation } from '@prisma/client';
-import { categories } from '@/constants';
 import Container from '@/components/container';
 import ListingHeader from './listing-header';
+import ListingInfo from './listing-info';
+import { eachDayOfInterval } from 'date-fns';
+import ListingReservation from './listing-reservation';
+
+const initialDateRange = {
+  startDate: new Date(),
+  endDate: new Date(),
+  key: 'selection',
+};
 
 type Props = {
   listing: Listing & {
@@ -18,11 +26,17 @@ type Props = {
 };
 
 const ListingClient = ({ currentProfile, listing }: Props) => {
-  const category = useMemo(() => {
-    return categories.find((category) => category.label === listing.category);
-  }, [listing.category]);
+  const {
+    imageUrl,
+    locationValue,
+    slug,
+    title,
+    reservations,
+    favoriteProfiles,
+    price
+  } = listing;
 
-  const isFav = listing.favoriteProfiles.some(
+  const isFav = favoriteProfiles.some(
     (profile) => profile.id === currentProfile?.id,
   );
 
@@ -32,12 +46,18 @@ const ListingClient = ({ currentProfile, listing }: Props) => {
         <div className="flex flex-col gap-6">
           <ListingHeader
             currentProfile={currentProfile}
-            image={listing.imageUrl}
-            location={listing.locationValue}
-            slug={listing.slug}
-            title={listing.title}
+            image={imageUrl}
+            location={locationValue}
+            slug={slug}
+            title={title}
             isFav={isFav}
           />
+        </div>
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-7 md:gap-10">
+          <ListingInfo listing={listing} />
+          <div className="order-first mb-10 md:order-last md:col-span-3">
+            <ListingReservation reservations={reservations} startPrice={price} />
+          </div>
         </div>
       </div>
     </Container>
