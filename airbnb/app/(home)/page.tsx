@@ -15,6 +15,7 @@ export default async function Home() {
           title="No exact matches"
           subtitle="Try changing or removing some of your filter"
           showReset
+          resetTitle='Remove filter'
         />
       </div>
     );
@@ -27,7 +28,7 @@ export default async function Home() {
           {listing.map((list) => (
             <ListingCard
               key={list.id}
-              Listing={list}
+              listing={list}
               profile={profile}
               isFav={list.favoriteProfiles.some(
                 (favProfile) => favProfile.id === profile?.id,

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/header';
 import { Button } from '@/components/ui/button';
@@ -9,9 +9,10 @@ type Props = {
   title?: string;
   subtitle?: string;
   showReset?: boolean;
+  resetTitle?: string;
 };
 
-const Empty = ({ showReset, subtitle, title }: Props) => {
+const Empty = ({ showReset, subtitle, title, resetTitle }: Props) => {
   const router = useRouter();
 
   return (
@@ -20,7 +21,7 @@ const Empty = ({ showReset, subtitle, title }: Props) => {
       <div className="mt-4 flex w-48 items-center justify-center">
         {showReset && (
           <Button variant={'destructive'} onClick={() => router.push(`/`)}>
-            Remove filters
+            {resetTitle}
           </Button>
         )}
       </div>
