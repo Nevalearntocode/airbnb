@@ -21,7 +21,7 @@ const Listing = async ({ params }: Props) => {
         title="The link you provided may be broken or the listing may no longer be available."
         subtitle="The listing may no longer be available. Would you like to browse similar listings?"
         showReset
-        resetTitle={'Return to home page'}
+        resetTitle={'Return to homepage'}
       />
     );
   }

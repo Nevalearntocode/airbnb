@@ -1,17 +1,23 @@
 import { create } from 'zustand';
 
-type ModalType = 'register' | 'login' | 'rent' | 'redirect';
+type ModalType = 'register' | 'login' | 'rent' | 'redirect' | 'confirm';
+
+type ModalData = {
+  reservationId?: string;
+};
 
 type ModalStore = {
+  data: ModalData;
   type: ModalType | null;
   isOpen: boolean;
-  onOpen: (type: ModalType) => void;
+  onOpen: (type: ModalType, data?: ModalData) => void;
   onClose: () => void;
 };
 
 export const useModal = create<ModalStore>((set) => ({
   type: null,
   isOpen: false,
-  onOpen: (type) => set({ isOpen: true, type }),
+  data: {},
+  onOpen: (type, data) => set({ isOpen: true, type, data }),
   onClose: () => set({ isOpen: false }),
 }));

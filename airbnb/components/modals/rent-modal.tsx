@@ -147,7 +147,7 @@ const RentModal = ({}: Props) => {
       form.reset();
     } catch (error: any) {
       console.log(error);
-      toast.error(error.message);
+      toast.error(error.response.data);
     }
   };
 

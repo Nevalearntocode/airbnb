@@ -3,9 +3,9 @@
 import useCountries from '@/hooks/use-country';
 import { Listing, Profile, Reservation } from '@prisma/client';
 import { useRouter } from 'next/navigation';
-import { format } from 'date-fns';
 import Image from 'next/image';
 import HeartToggle from './heart-toggle';
+import { useEffect, useState } from 'react';
 
 type Props = {
   listing: Listing & {
@@ -15,18 +15,12 @@ type Props = {
     reservations: Reservation[];
   };
   profile: Profile | null;
-  isFav: boolean;
 };
 
-const formatResult = (start: number, end: number) => {
-  return `${format(start, 'PP')} - ${format(end, 'PP')}`;
-};
-
-const ListingCard = ({ listing, profile, isFav }: Props) => {
+const ListingCard = ({ listing, profile }: Props) => {
   const router = useRouter();
   const { getByValue } = useCountries();
   const location = getByValue(listing.locationValue);
-
   return (
     <div
       className="group col-span-1"
@@ -45,7 +39,11 @@ const ListingCard = ({ listing, profile, isFav }: Props) => {
             priority
             className="h-full w-full object-cover transition duration-1000 group-hover:scale-110"
           />
-          <HeartToggle isFav={isFav} profile={profile} slug={listing.slug} />
+          <HeartToggle
+            favProfileIds={listing.favoriteProfiles}
+            profile={profile}
+            slug={listing.slug}
+          />
         </div>
         <div className="flex flex-col gap-y-1">
           <p className="font-semibold">

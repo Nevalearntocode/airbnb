@@ -5,26 +5,36 @@ import { useModal } from '@/hooks/use-modal-store';
 import { cn } from '@/lib/utils';
 import { Profile } from '@prisma/client';
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { toast } from 'sonner';
 
 type Props = {
   profile: Profile | null;
-  isFav: boolean;
   slug: string;
   className?: string;
+  favProfileIds: {
+    id: String
+  }[]
 };
 
-const HeartToggle = ({ isFav, profile, slug }: Props) => {
-  const [favorited, setFavorited] = useState(isFav);
+const HeartToggle = ({profile, slug, favProfileIds }: Props) => {
+  const [favorited, setFavorited] = useState(
+    favProfileIds.some((favProfile) => favProfile.id === profile?.id)
+  );
+
+  useEffect(() => {
+    setFavorited(
+      favProfileIds.some((favProfile) => favProfile.id === profile?.id),
+    );
+  }, [favProfileIds, profile?.id])
   const { onOpen } = useModal();
 
   const onFavorite = async () => {
     try {
       await axios.patch(`/api/listings/${slug}/favorite`);
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error.response.data);
     }
   };
 

@@ -8,6 +8,7 @@ import { format } from 'date-fns';
 import Image from 'next/image';
 import HeartToggle from '../(home)/heart-toggle';
 import { Button } from '@/components/ui/button';
+import { useModal } from '@/hooks/use-modal-store';
 
 type Props = {
   reservation: Reservation & {
@@ -21,27 +22,19 @@ type Props = {
 };
 
 const ListingCard = ({ reservation, profile }: Props) => {
+  const { onOpen } = useModal();
   const { listing, startDate, endDate, totalPrice } = reservation;
   const router = useRouter();
   const { getByValue } = useCountries();
   const location = getByValue(listing.locationValue);
-  const [isFav, setIsFav] = useState(false);
-
-  useEffect(() => {
-    setIsFav(
-      listing.favoriteProfiles.some(
-        (favProfile) => favProfile.id === profile.id,
-      ),
-    );
-  }, [listing]);
 
   const reservationDate = useMemo(() => {
     if (!reservation) {
       return null;
     }
 
-    const start = new Date(reservation.startDate);
-    const end = new Date(reservation.endDate);
+    const start = new Date(startDate);
+    const end = new Date(endDate);
 
     return `${format(start, 'PP')} - ${format(end, 'PP')}`;
   }, [reservation]);
@@ -64,7 +57,11 @@ const ListingCard = ({ reservation, profile }: Props) => {
             priority
             className="h-full w-full object-cover transition duration-1000 group-hover:scale-110"
           />
-          <HeartToggle isFav={isFav} profile={profile} slug={listing.slug} />
+          <HeartToggle
+            favProfileIds={listing.favoriteProfiles}
+            profile={profile}
+            slug={listing.slug}
+          />
         </div>
         <div className="flex flex-col gap-y-1">
           <p className="line-clamp-1 font-semibold">
@@ -76,7 +73,15 @@ const ListingCard = ({ reservation, profile }: Props) => {
           <div className="flex items-center gap-1">
             <p className="font-semibold">$ {totalPrice}</p>
           </div>
-          <Button variant={'destructive'} size={'sm'}>
+          <Button
+            variant={'destructive'}
+            size={'sm'}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onOpen('confirm', { reservationId: reservation.id });
+            }}
+          >
             Cancel reservation
           </Button>
         </div>

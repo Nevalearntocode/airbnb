@@ -30,9 +30,6 @@ export default async function Home() {
               key={list.id}
               listing={list}
               profile={profile}
-              isFav={list.favoriteProfiles.some(
-                (favProfile) => favProfile.id === profile?.id,
-              )}
             />
           ))}
         </div>

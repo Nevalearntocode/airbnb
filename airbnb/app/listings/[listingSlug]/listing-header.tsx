@@ -13,7 +13,9 @@ type Props = {
   location: string;
   slug: string;
   currentProfile: Profile | null;
-  isFav: boolean;
+  favProfileIds: {
+    id: string
+  }[]
 };
 
 const ListingHeader = ({
@@ -22,7 +24,7 @@ const ListingHeader = ({
   location: locationValue,
   slug,
   title,
-  isFav,
+  favProfileIds
 }: Props) => {
   const { getByValue } = useCountries();
 
@@ -43,7 +45,11 @@ const ListingHeader = ({
           className="h-full w-full rounded-xl"
         />
         <div className="absolute right-1 top-0">
-          <HeartToggle isFav={isFav} profile={currentProfile} slug={slug} />
+          <HeartToggle
+            favProfileIds={favProfileIds}
+            profile={currentProfile}
+            slug={slug}
+          />
         </div>
       </div>
     </>

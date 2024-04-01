@@ -1,7 +1,6 @@
 'use client';
 
-import { addDays } from 'date-fns';
-import React, { useEffect, useMemo } from 'react';
+import React from 'react';
 import { DateRange, Range, RangeKeyDict } from 'react-date-range';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';

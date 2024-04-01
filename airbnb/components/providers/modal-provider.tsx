@@ -5,6 +5,7 @@ import RegisterModal from '../modals/register-modal';
 import LoginModal from '../modals/login-modal';
 import RentModal from '../modals/rent-modal';
 import RedirectModal from '../modals/redirect-modal';
+import ConfirmModal from '../modals/confirm-modal';
 
 type Props = {};
 
@@ -25,6 +26,7 @@ const ModalProvider = ({}: Props) => {
       <LoginModal />
       <RentModal />
       <RedirectModal />
+      <ConfirmModal />
     </>
   );
 };

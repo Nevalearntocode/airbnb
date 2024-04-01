@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import { Reservation } from '@prisma/client';
-import { addDays, differenceInDays, eachDayOfInterval } from 'date-fns';
+import { differenceInDays, eachDayOfInterval } from 'date-fns';
 import { Range } from 'react-date-range';
 import { useParams, useRouter } from 'next/navigation';
 import { Separator } from '@/components/ui/separator';
@@ -79,7 +79,7 @@ const ListingReservation = ({
         onClose();
       }, 10000);
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error.response.data);
     }
   };
 

@@ -19,7 +19,8 @@ export default withAuth(
     const isAuthRoute = AuthRoutes.includes(nextUrl.pathname);
     const isProtectedRoute =
       ProtectedRoutes.includes(nextUrl.pathname) ||
-      nextUrl.pathname.startsWith('/api/listings');
+      nextUrl.pathname.startsWith('/api/listings') ||
+      nextUrl.pathname.startsWith('/api/reservations');
     if (isAuthRoute) {
       return null;
     }

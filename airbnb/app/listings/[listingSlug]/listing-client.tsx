@@ -43,7 +43,7 @@ const ListingClient = ({ currentProfile, listing }: Props) => {
             location={locationValue}
             slug={slug}
             title={title}
-            isFav={isFav}
+            favProfileIds={favoriteProfiles}
           />
         </div>
         <div className="mt-6 grid grid-cols-1 md:grid-cols-7 md:gap-10">

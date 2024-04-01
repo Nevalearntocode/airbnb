@@ -21,7 +21,7 @@ const Trips = async (props: Props) => {
         title="No trips found"
         subtitle="Looks like you have not reserve any trips."
         showReset
-        resetTitle="Return to home page"
+        resetTitle="Return to homepage"
       />
     );
   }
