@@ -1,9 +1,10 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
-import RegisterModal from "../modals/register-modal";
-import LoginModal from "../modals/login-modal";
-import RentModal from "../modals/rent-modal";
+import React, { useEffect, useState } from 'react';
+import RegisterModal from '../modals/register-modal';
+import LoginModal from '../modals/login-modal';
+import RentModal from '../modals/rent-modal';
+import RedirectModal from '../modals/redirect-modal';
 
 type Props = {};
 
@@ -23,6 +24,7 @@ const ModalProvider = ({}: Props) => {
       <RegisterModal />
       <LoginModal />
       <RentModal />
+      <RedirectModal />
     </>
   );
 };

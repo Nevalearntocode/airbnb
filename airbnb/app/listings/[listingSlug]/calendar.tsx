@@ -1,20 +1,21 @@
 'use client';
 
-import React from 'react';
+import { addDays } from 'date-fns';
+import React, { useEffect, useMemo } from 'react';
 import { DateRange, Range, RangeKeyDict } from 'react-date-range';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 
 type Props = {
   value: Range;
-  disabledDates?: Date[];
+  disabledDates: Date[];
   onChange: (value: RangeKeyDict) => void;
 };
 
 const Calendar = ({ onChange, value, disabledDates }: Props) => {
   return (
     <DateRange
-      rangeColors={['#262626']}
+      rangeColors={['#fe6a72']}
       ranges={[value]}
       date={new Date()}
       onChange={onChange}

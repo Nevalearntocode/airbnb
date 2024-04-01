@@ -1,18 +1,11 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Listing, Profile, Reservation } from '@prisma/client';
 import Container from '@/components/container';
 import ListingHeader from './listing-header';
 import ListingInfo from './listing-info';
-import { eachDayOfInterval } from 'date-fns';
 import ListingReservation from './listing-reservation';
-
-const initialDateRange = {
-  startDate: new Date(),
-  endDate: new Date(),
-  key: 'selection',
-};
 
 type Props = {
   listing: Listing & {
@@ -33,7 +26,7 @@ const ListingClient = ({ currentProfile, listing }: Props) => {
     title,
     reservations,
     favoriteProfiles,
-    price
+    price,
   } = listing;
 
   const isFav = favoriteProfiles.some(
@@ -56,7 +49,11 @@ const ListingClient = ({ currentProfile, listing }: Props) => {
         <div className="mt-6 grid grid-cols-1 md:grid-cols-7 md:gap-10">
           <ListingInfo listing={listing} />
           <div className="order-first mb-10 md:order-last md:col-span-3">
-            <ListingReservation reservations={reservations} startPrice={price} />
+            <ListingReservation
+              reservations={reservations}
+              startPrice={price}
+              isLoggedIn={currentProfile ? true : false}
+            />
           </div>
         </div>
       </div>

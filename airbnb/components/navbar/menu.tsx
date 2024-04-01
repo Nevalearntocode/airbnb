@@ -14,6 +14,7 @@ import { LogOut } from 'lucide-react';
 import { signOut } from 'next-auth/react';
 import { Profile } from '@prisma/client';
 import { ModeToggle } from '../mode-toggle';
+import { useRouter } from 'next/navigation';
 
 type Props = {
   profile: Profile | null;
@@ -21,6 +22,7 @@ type Props = {
 
 const Menu = ({ profile }: Props) => {
   const { onOpen } = useModal();
+  const router = useRouter();
 
   const onLogOut = () => {
     signOut();
@@ -58,7 +60,7 @@ const Menu = ({ profile }: Props) => {
               <ModeToggle mode="switch" />
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => {}}
+              onClick={() => router.push(`/trips`)}
               className="flex w-auto items-center justify-between"
             >
               My trips

@@ -1,6 +1,6 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
-type ModalType = "register" | "login" | "rent";
+type ModalType = 'register' | 'login' | 'rent' | 'redirect';
 
 type ModalStore = {
   type: ModalType | null;

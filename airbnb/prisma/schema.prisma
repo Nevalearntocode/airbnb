@@ -95,8 +95,8 @@ model Listing {
 
 model Reservation {
   id                 String  @id @default(cuid())
-  profileId             String
-  profile               Profile    @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profileId          String
+  profile            Profile    @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   listingId          String
   listing            Listing    @relation(fields: [listingId], references: [id], onDelete: Cascade)

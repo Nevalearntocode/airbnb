@@ -2,12 +2,15 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import { Reservation } from '@prisma/client';
-import { differenceInDays, eachDayOfInterval } from 'date-fns';
+import { addDays, differenceInDays, eachDayOfInterval } from 'date-fns';
 import { Range } from 'react-date-range';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { Separator } from '@/components/ui/separator';
 import Calendar from './calendar';
 import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
+import { useModal } from '@/hooks/use-modal-store';
+import axios from 'axios';
 
 const initialDateRange = {
   startDate: new Date(),
@@ -18,12 +21,19 @@ const initialDateRange = {
 type Props = {
   reservations: Reservation[];
   startPrice: number;
+  isLoggedIn: boolean;
 };
 
-const ListingReservation = ({ reservations, startPrice }: Props) => {
+const ListingReservation = ({
+  reservations,
+  startPrice,
+  isLoggedIn,
+}: Props) => {
   const [totalPrice, setTotalPrice] = useState(startPrice);
   const [dateRange, setDateRange] = useState<Range>(initialDateRange);
+  const { onOpen, onClose } = useModal();
   const { listingSlug } = useParams();
+  const router = useRouter();
 
   const disabledDates = useMemo(() => {
     let dates: Date[] = [];
@@ -55,7 +65,23 @@ const ListingReservation = ({ reservations, startPrice }: Props) => {
     }
   }, [dateRange, startPrice]);
 
-  const onSubmit = async () => {};
+  const onSubmit = async () => {
+    try {
+      await axios.post(`/api/listings/${listingSlug}/reservations/`, {
+        startDate: dateRange.startDate,
+        endDate: dateRange.endDate,
+        totalPrice,
+      });
+      toast.success('Listing reserved!');
+      onOpen('redirect');
+      router.refresh();
+      setTimeout(() => {
+        onClose();
+      }, 10000);
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
 
   return (
     <div className="overflow-hidden rounded-xl border-[1px] border-neutral-200 bg-white">
@@ -70,7 +96,18 @@ const ListingReservation = ({ reservations, startPrice }: Props) => {
         onChange={(value) => setDateRange(value.selection)}
       />
       <div className="w-full px-4 pb-4">
-        <Button variant={'destructive'} className="mt-0 w-full">
+        <Button
+          variant={'destructive'}
+          className="mt-0 w-full"
+          onClick={
+            isLoggedIn
+              ? onSubmit
+              : () => {
+                  toast.info('Login to reserve.');
+                  onOpen('login');
+                }
+          }
+        >
           Reserve
         </Button>
       </div>
