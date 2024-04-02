@@ -15,11 +15,11 @@ import axios from 'axios';
 
 type Props = {};
 
-const ConfirmModal = (props: Props) => {
+const ConfirmGuestModal = (props: Props) => {
   const { isOpen, type, onClose, data } = useModal();
   const router = useRouter();
 
-  const isModalOpen = isOpen && type === 'confirm';
+  const isModalOpen = isOpen && type === 'confirmGuest';
   const onCancel = async (type: 'guest' | 'own') => {
     try {
       await axios.patch(`/api/reservations/${data.reservationId}`, { type });
@@ -35,9 +35,9 @@ const ConfirmModal = (props: Props) => {
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent>
-        <DialogHeader>Cancel reservation.</DialogHeader>
+        <DialogHeader>Cancel guest reservation.</DialogHeader>
         <DialogDescription className="text-center">
-          If you cancel this reservation, it might be taken by other people.
+          You might want to contact your guests before cancel this reservation.
         </DialogDescription>
         <div className="flex w-full items-center justify-between gap-x-4">
           <Button
@@ -53,7 +53,7 @@ const ConfirmModal = (props: Props) => {
           <Button
             variant={'destructive'}
             className="w-full"
-            onClick={() => onCancel('own')}
+            onClick={() => onCancel('guest')}
           >
             Proceed to cancel
           </Button>
@@ -63,4 +63,4 @@ const ConfirmModal = (props: Props) => {
   );
 };
 
-export default ConfirmModal;
+export default ConfirmGuestModal;

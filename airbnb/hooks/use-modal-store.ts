@@ -1,6 +1,12 @@
 import { create } from 'zustand';
 
-type ModalType = 'register' | 'login' | 'rent' | 'redirect' | 'confirm';
+type ModalType =
+  | 'register'
+  | 'login'
+  | 'rent'
+  | 'redirect'
+  | 'confirm'
+  | 'confirmGuest';
 
 type ModalData = {
   reservationId?: string;

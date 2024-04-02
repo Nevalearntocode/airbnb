@@ -4,4 +4,9 @@ export const AuthRoutes: string[] = ['/api/register'];
 
 export const ApiRoutePrefix = '/api/auth';
 
-export const ProtectedRoutes = ['/settings', '/api/listings', '/trips'];
+export const ProtectedRoutes = [
+  '/settings',
+  '/api/listings',
+  '/trips',
+  '/reservations',
+];

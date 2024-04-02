@@ -7,7 +7,6 @@ export default async function getListings() {
         createdAt: 'desc',
       },
       include: {
-        reservations: true,
         favoriteProfiles: {
           select: {
             id: true,

@@ -66,13 +66,13 @@ const Menu = ({ profile }: Props) => {
               My trips
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => {}}
+              onClick={() => router.push(`/favorites`)}
               className="flex w-auto items-center justify-between"
             >
               My favorites
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => {}}
+              onClick={() => router.push(`/reservations`)}
               className="flex w-auto items-center justify-between"
             >
               My reservations

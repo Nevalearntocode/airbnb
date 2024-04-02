@@ -3,11 +3,9 @@
 import Container from '@/components/container';
 import Header from '@/components/header';
 import { Listing, Profile, Reservation } from '@prisma/client';
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
-import ListingCard from './listing-card';
+import TripCard from './trip-card';
 
-type Props = {
+export type ReservationsProps = {
   reservations: (Reservation & {
     listing: Listing & {
       favoriteProfiles: {
@@ -18,9 +16,7 @@ type Props = {
   currentProfile: Profile;
 };
 
-const TripsClient = ({ reservations, currentProfile }: Props) => {
-  const router = useRouter();
-
+const TripsClient = ({ reservations, currentProfile }: ReservationsProps) => {
   return (
     <div className="mt-4 md:mt-8">
       <Container>
@@ -30,7 +26,7 @@ const TripsClient = ({ reservations, currentProfile }: Props) => {
         />
         <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
           {reservations.map((reservation) => (
-            <ListingCard
+            <TripCard
               key={reservation.id}
               profile={currentProfile}
               reservation={reservation}

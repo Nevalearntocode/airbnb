@@ -1,18 +1,16 @@
 'use client';
 
 import useCountries from '@/hooks/use-country';
-import { Listing, Profile, Reservation } from '@prisma/client';
+import { Listing, Profile } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import HeartToggle from './heart-toggle';
-import { useEffect, useState } from 'react';
 
 type Props = {
   listing: Listing & {
     favoriteProfiles: {
       id: string;
     }[];
-    reservations: Reservation[];
   };
   profile: Profile | null;
 };
@@ -46,7 +44,7 @@ const ListingCard = ({ listing, profile }: Props) => {
           />
         </div>
         <div className="flex flex-col gap-y-1">
-          <p className="font-semibold">
+          <p className="line-clamp-1 font-semibold">
             {location?.region}, {location?.label}
           </p>
           <span className="font-light text-neutral-500">

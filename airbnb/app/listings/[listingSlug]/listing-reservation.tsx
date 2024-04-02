@@ -73,7 +73,9 @@ const ListingReservation = ({
         totalPrice,
       });
       toast.success('Listing reserved!');
-      onOpen('redirect');
+      setTimeout(() => {
+        onOpen('redirect');
+      }, 500);
       router.refresh();
       setTimeout(() => {
         onClose();

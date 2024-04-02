@@ -21,7 +21,7 @@ type Props = {
   profile: Profile;
 };
 
-const ListingCard = ({ reservation, profile }: Props) => {
+const ReservationCard = ({ reservation, profile }: Props) => {
   const { onOpen } = useModal();
   const { listing, startDate, endDate, totalPrice } = reservation;
   const router = useRouter();
@@ -79,10 +79,10 @@ const ListingCard = ({ reservation, profile }: Props) => {
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              onOpen('confirm', { reservationId: reservation.id });
+              onOpen('confirmGuest', { reservationId: reservation.id });
             }}
           >
-            Cancel reservation
+            Cancel guest reservation
           </Button>
         </div>
       </div>
@@ -90,4 +90,4 @@ const ListingCard = ({ reservation, profile }: Props) => {
   );
 };
 
-export default ListingCard;
+export default ReservationCard;
