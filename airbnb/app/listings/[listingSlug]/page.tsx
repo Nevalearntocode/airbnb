@@ -1,4 +1,4 @@
-import Empty from '@/app/(home)/empty';
+import Empty from '@/components/empty';
 import getListingBySlug from '@/app/actions/getListingBySlug';
 import { redirect } from 'next/navigation';
 import React from 'react';

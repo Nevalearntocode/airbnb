@@ -1,7 +1,7 @@
 import { getCurrentProfile } from '@/lib/current-profile';
 import React from 'react';
 import getReservations from '../actions/getReservations';
-import Empty from '../(home)/empty';
+import Empty from '../../components/empty';
 import TripsClient from './trips-client';
 
 type Props = {};

@@ -9,4 +9,6 @@ export const ProtectedRoutes = [
   '/api/listings',
   '/trips',
   '/reservations',
+  '/favorites',
+  '/properties',
 ];

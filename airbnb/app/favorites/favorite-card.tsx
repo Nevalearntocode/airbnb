@@ -4,7 +4,7 @@ import useCountries from '@/hooks/use-country';
 import { Listing, Profile } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import HeartToggle from '../../components/heart-toggle';
+import HeartToggle from './heart-toggle-favorite';
 
 type Props = {
   listing: Listing & {
@@ -15,7 +15,7 @@ type Props = {
   profile: Profile | null;
 };
 
-const ListingCard = ({ listing, profile }: Props) => {
+const FavoriteCard = ({ listing, profile }: Props) => {
   const router = useRouter();
   const { getByValue } = useCountries();
   const location = getByValue(listing.locationValue);
@@ -37,13 +37,11 @@ const ListingCard = ({ listing, profile }: Props) => {
             priority
             className="h-full w-full object-cover transition duration-1000 group-hover:scale-110"
           />
-          {listing.profileId !== profile?.id && (
-            <HeartToggle
-              favProfileIds={listing.favoriteProfiles}
-              profile={profile}
-              slug={listing.slug}
-            />
-          )}
+          <HeartToggle
+            favProfileIds={listing.favoriteProfiles}
+            profile={profile}
+            slug={listing.slug}
+          />
         </div>
         <div className="flex flex-col gap-y-1">
           <p className="line-clamp-1 font-semibold">
@@ -62,4 +60,4 @@ const ListingCard = ({ listing, profile }: Props) => {
   );
 };
 
-export default ListingCard;
+export default FavoriteCard;

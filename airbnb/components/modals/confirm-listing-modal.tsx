@@ -15,16 +15,16 @@ import axios from 'axios';
 
 type Props = {};
 
-const ConfirmModal = (props: Props) => {
+const ConfirmListingModal = (props: Props) => {
   const { isOpen, type, onClose, data } = useModal();
   const router = useRouter();
 
-  const isModalOpen = isOpen && type === 'confirm';
-  const onCancel = async (type: 'guest' | 'own') => {
+  const isModalOpen = isOpen && type === 'confirmListing';
+  const onDelete = async () => {
     try {
-      await axios.patch(`/api/reservations/${data.reservationId}`, { type });
+      await axios.delete(`/api/listings/${data.listingSlug}`);
       router.refresh();
-      toast.success('Reservation cancelled!');
+      toast.success('Listing deleted');
       onClose();
     } catch (error: any) {
       console.log(error);
@@ -35,9 +35,9 @@ const ConfirmModal = (props: Props) => {
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent>
-        <DialogHeader>Cancel reservation.</DialogHeader>
+        <DialogHeader>Delete property.</DialogHeader>
         <DialogDescription className="text-center">
-          If you cancel this reservation, it might be taken by other people.
+          If you delete this property, all reservations will also be deleted.
         </DialogDescription>
         <div className="flex w-full items-center justify-between gap-x-4">
           <Button
@@ -50,8 +50,8 @@ const ConfirmModal = (props: Props) => {
           >
             Return to homepage
           </Button>
-          <Button className="w-full" onClick={() => onCancel('own')}>
-            Proceed to cancel
+          <Button className="w-full" onClick={() => onDelete()}>
+            Confirm
           </Button>
         </div>
       </DialogContent>
@@ -59,4 +59,4 @@ const ConfirmModal = (props: Props) => {
   );
 };
 
-export default ConfirmModal;
+export default ConfirmListingModal;

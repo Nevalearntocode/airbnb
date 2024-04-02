@@ -1,6 +1,6 @@
 'use client';
 
-import HeartToggle from '@/app/(home)/heart-toggle';
+import HeartToggle from '@/components/heart-toggle';
 import Header from '@/components/header';
 import useCountries from '@/hooks/use-country';
 import { Profile } from '@prisma/client';
@@ -14,8 +14,9 @@ type Props = {
   slug: string;
   currentProfile: Profile | null;
   favProfileIds: {
-    id: string
-  }[]
+    id: string;
+  }[];
+  listingProfileId: string;
 };
 
 const ListingHeader = ({
@@ -24,7 +25,8 @@ const ListingHeader = ({
   location: locationValue,
   slug,
   title,
-  favProfileIds
+  favProfileIds,
+  listingProfileId,
 }: Props) => {
   const { getByValue } = useCountries();
 
@@ -44,13 +46,15 @@ const ListingHeader = ({
           width={720}
           className="h-full w-full rounded-xl"
         />
-        <div className="absolute right-1 top-0">
-          <HeartToggle
-            favProfileIds={favProfileIds}
-            profile={currentProfile}
-            slug={slug}
-          />
-        </div>
+        {listingProfileId !== currentProfile?.id && (
+          <div className="absolute right-1 top-0">
+            <HeartToggle
+              favProfileIds={favProfileIds}
+              profile={currentProfile}
+              slug={slug}
+            />
+          </div>
+        )}
       </div>
     </>
   );

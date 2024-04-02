@@ -78,7 +78,7 @@ const Menu = ({ profile }: Props) => {
               My reservations
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => {}}
+              onClick={() => router.push(`/properties`)}
               className="flex w-auto items-center justify-between"
             >
               My properties

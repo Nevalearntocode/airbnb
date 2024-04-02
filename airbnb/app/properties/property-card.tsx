@@ -4,21 +4,20 @@ import useCountries from '@/hooks/use-country';
 import { Listing, Profile } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import HeartToggle from '../../components/heart-toggle';
+import { Button } from '@/components/ui/button';
+import { useModal } from '@/hooks/use-modal-store';
 
 type Props = {
-  listing: Listing & {
-    favoriteProfiles: {
-      id: string;
-    }[];
-  };
+  listing: Listing;
   profile: Profile | null;
 };
 
-const ListingCard = ({ listing, profile }: Props) => {
+const PropertyCard = ({ listing }: Props) => {
   const router = useRouter();
   const { getByValue } = useCountries();
   const location = getByValue(listing.locationValue);
+  const { onOpen } = useModal();
+
   return (
     <div
       className="group col-span-1"
@@ -37,13 +36,6 @@ const ListingCard = ({ listing, profile }: Props) => {
             priority
             className="h-full w-full object-cover transition duration-1000 group-hover:scale-110"
           />
-          {listing.profileId !== profile?.id && (
-            <HeartToggle
-              favProfileIds={listing.favoriteProfiles}
-              profile={profile}
-              slug={listing.slug}
-            />
-          )}
         </div>
         <div className="flex flex-col gap-y-1">
           <p className="line-clamp-1 font-semibold">
@@ -56,10 +48,32 @@ const ListingCard = ({ listing, profile }: Props) => {
             <p className="font-semibold">$ {listing.price}</p>
             <p className="font-light">night</p>
           </div>
+          <div className="flex items-center justify-between gap-x-2">
+            <Button
+              variant={'destructive'}
+              className="m-0 h-8 w-full p-0"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+            >
+              Edit
+            </Button>
+            <Button
+              className="m-0 h-8 w-full p-0"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onOpen('confirmListing', { listingSlug: listing.slug });
+              }}
+            >
+              Delete
+            </Button>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default ListingCard;
+export default PropertyCard;

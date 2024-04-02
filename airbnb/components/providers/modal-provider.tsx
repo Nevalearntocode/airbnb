@@ -7,6 +7,7 @@ import RentModal from '../modals/rent-modal';
 import RedirectModal from '../modals/redirect-modal';
 import ConfirmModal from '../modals/confirm-modal';
 import ConfirmGuestModal from '../modals/confirm-guest-modal';
+import ConfirmListingModal from '../modals/confirm-listing-modal';
 
 type Props = {};
 
@@ -29,6 +30,7 @@ const ModalProvider = ({}: Props) => {
       <RedirectModal />
       <ConfirmModal />
       <ConfirmGuestModal />
+      <ConfirmListingModal />
     </>
   );
 };

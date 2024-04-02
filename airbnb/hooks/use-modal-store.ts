@@ -1,3 +1,4 @@
+import { Listing } from '@prisma/client';
 import { create } from 'zustand';
 
 type ModalType =
@@ -6,10 +7,13 @@ type ModalType =
   | 'rent'
   | 'redirect'
   | 'confirm'
-  | 'confirmGuest';
+  | 'confirmGuest'
+  | 'confirmListing';
 
 type ModalData = {
   reservationId?: string;
+  listingSlug?: string;
+  listing?: Listing;
 };
 
 type ModalStore = {

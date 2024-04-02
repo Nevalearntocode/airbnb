@@ -29,10 +29,6 @@ const ListingClient = ({ currentProfile, listing }: Props) => {
     price,
   } = listing;
 
-  const isFav = favoriteProfiles.some(
-    (profile) => profile.id === currentProfile?.id,
-  );
-
   return (
     <Container>
       <div className="mx-auto max-w-screen-lg">
@@ -44,6 +40,7 @@ const ListingClient = ({ currentProfile, listing }: Props) => {
             slug={slug}
             title={title}
             favProfileIds={favoriteProfiles}
+            listingProfileId={listing.profileId}
           />
         </div>
         <div className="mt-6 grid grid-cols-1 md:grid-cols-7 md:gap-10">

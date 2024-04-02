@@ -41,7 +41,7 @@ const ConfirmGuestModal = (props: Props) => {
         </DialogDescription>
         <div className="flex w-full items-center justify-between gap-x-4">
           <Button
-            variant={`outline`}
+            variant={'destructive'}
             className="w-full"
             onClick={() => {
               router.push(`/`);
@@ -50,11 +50,7 @@ const ConfirmGuestModal = (props: Props) => {
           >
             Return to homepage
           </Button>
-          <Button
-            variant={'destructive'}
-            className="w-full"
-            onClick={() => onCancel('guest')}
-          >
+          <Button className="w-full" onClick={() => onCancel('guest')}>
             Proceed to cancel
           </Button>
         </div>

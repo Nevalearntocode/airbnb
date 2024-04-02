@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useMemo, useState } from 'react';
 import { format } from 'date-fns';
 import Image from 'next/image';
-import HeartToggle from '../(home)/heart-toggle';
+import HeartToggle from '../../components/heart-toggle';
 import { Button } from '@/components/ui/button';
 import { useModal } from '@/hooks/use-modal-store';
 
@@ -57,11 +57,13 @@ const TripCard = ({ reservation, profile }: Props) => {
             priority
             className="h-full w-full object-cover transition duration-1000 group-hover:scale-110"
           />
-          <HeartToggle
-            favProfileIds={listing.favoriteProfiles}
-            profile={profile}
-            slug={listing.slug}
-          />
+          {listing.profileId !== profile?.id && (
+            <HeartToggle
+              favProfileIds={listing.favoriteProfiles}
+              profile={profile}
+              slug={listing.slug}
+            />
+          )}
         </div>
         <div className="flex flex-col gap-y-1">
           <p className="line-clamp-1 font-semibold">
