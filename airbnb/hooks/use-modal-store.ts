@@ -8,7 +8,8 @@ type ModalType =
   | 'redirect'
   | 'confirm'
   | 'confirmGuest'
-  | 'confirmListing';
+  | 'confirmListing'
+  | 'edit';
 
 type ModalData = {
   reservationId?: string;
@@ -28,6 +29,6 @@ export const useModal = create<ModalStore>((set) => ({
   type: null,
   isOpen: false,
   data: {},
-  onOpen: (type, data) => set({ isOpen: true, type, data }),
+  onOpen: (type, data = {}) => set({ isOpen: true, type, data }),
   onClose: () => set({ isOpen: false }),
 }));

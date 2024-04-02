@@ -34,6 +34,7 @@ const PropertyCard = ({ listing }: Props) => {
             fill
             sizes="auto"
             priority
+            loading="lazy"
             className="h-full w-full object-cover transition duration-1000 group-hover:scale-110"
           />
         </div>
@@ -55,6 +56,7 @@ const PropertyCard = ({ listing }: Props) => {
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
+                onOpen('edit', { listing });
               }}
             >
               Edit
