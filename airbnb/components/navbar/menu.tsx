@@ -53,6 +53,14 @@ const Menu = ({ profile }: Props) => {
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent side="bottom" align="end">
+            <div className="md:hidden">
+              <DropdownMenuItem
+                onClick={() => router.push(`/`)}
+                className="flex w-full items-center justify-between"
+              >
+                Home
+              </DropdownMenuItem>
+            </div>
             <DropdownMenuItem
               onClick={() => {}}
               className="flex w-full items-center justify-between"

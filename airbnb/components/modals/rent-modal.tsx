@@ -401,7 +401,7 @@ const RentModal = ({}: Props) => {
                   Back
                 </Button>
                 <Button
-                  disabled={hasErrors && step === STEPS.PRICE}
+                  disabled={(hasErrors && step === STEPS.PRICE) || isLoading}
                   variant={'destructive'}
                   className={cn(
                     'ml-auto w-2/4',
