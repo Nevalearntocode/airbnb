@@ -6,6 +6,7 @@ import Navbar from '@/components/navbar';
 import ModalProvider from '@/components/providers/modal-provider';
 import { InitialProfile } from '@/lib/initial-profile';
 import { Toaster } from '@/components/ui/sonner';
+import getListings from './actions/getListings';
 
 const font = Nunito({ subsets: ['latin'] });
 
@@ -23,6 +24,8 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const profile = await InitialProfile();
+
+  const listings = await getListings();
 
   return (
     <html lang="en" suppressHydrationWarning>

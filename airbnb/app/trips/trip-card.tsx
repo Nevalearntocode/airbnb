@@ -3,7 +3,7 @@
 import useCountries from '@/hooks/use-country';
 import { Listing, Profile, Reservation } from '@prisma/client';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { format } from 'date-fns';
 import Image from 'next/image';
 import HeartToggle from '../../components/heart-toggle';
@@ -55,7 +55,6 @@ const TripCard = ({ reservation, profile }: Props) => {
             fill
             sizes="auto"
             priority
-            loading='lazy'
             className="h-full w-full object-cover transition duration-1000 group-hover:scale-110"
           />
           {listing.profileId !== profile?.id && (

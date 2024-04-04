@@ -1,6 +1,5 @@
 import Empty from '@/components/empty';
 import getListingBySlug from '@/app/actions/getListingBySlug';
-import { redirect } from 'next/navigation';
 import React from 'react';
 import ListingClient from './listing-client';
 import { getCurrentProfile } from '@/lib/current-profile';

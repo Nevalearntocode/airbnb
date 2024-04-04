@@ -34,7 +34,6 @@ const FavoriteCard = ({ listing, profile }: Props) => {
             alt={listing.title}
             fill
             sizes="auto"
-            priority
             loading="lazy"
             className="h-full w-full object-cover transition duration-1000 group-hover:scale-110"
           />

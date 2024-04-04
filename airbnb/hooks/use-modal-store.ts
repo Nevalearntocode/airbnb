@@ -9,7 +9,8 @@ type ModalType =
   | 'confirm'
   | 'confirmGuest'
   | 'confirmListing'
-  | 'edit';
+  | 'edit'
+  | 'search'
 
 type ModalData = {
   reservationId?: string;

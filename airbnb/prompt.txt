@@ -1,0 +1,2 @@
+http://localhost:3000/?bathroomCount=1&category=Beach&endDate=2024-04-16T00%3A00%3A00%2B07%3A00&guestCount=3&locationValue=VNM&roomCount=1&startDate=2024-04-04T00%3A00%3A00%2B07%3A00
+http://localhost:3000/?bathroomCount=1&category=Beach&endDate=2024-04-04T00%3A00%3A00%2B07%3A00&guestCount=3&locationValue=VNM&roomCount=1&startDate=2024-04-04T00%3A00%3A00%2B07%3A00

@@ -9,6 +9,8 @@ import ConfirmModal from '../modals/confirm-modal';
 import ConfirmGuestModal from '../modals/confirm-guest-modal';
 import ConfirmListingModal from '../modals/confirm-listing-modal';
 import EditModal from '../modals/edit-modal';
+import SearchModal from '../modals/search-modal';
+import CommandSearchModal from '../navbar/command-search';
 
 type Props = {};
 
@@ -33,6 +35,7 @@ const ModalProvider = ({}: Props) => {
       <ConfirmGuestModal />
       <ConfirmListingModal />
       <EditModal />
+      <SearchModal />
     </>
   );
 };

@@ -101,7 +101,11 @@ const EditModal = ({}: Props) => {
     listing: Listing;
   };
 
-  const location = getByValue(listing.locationValue);
+  let location: LocationType | undefined;
+
+  if (listing) {
+    location = getByValue(listing.locationValue);
+  }
 
   const [step, setStep] = useState<STEPS>(STEPS.CATEGORY);
 
