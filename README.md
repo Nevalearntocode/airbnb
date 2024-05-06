@@ -1,13 +1,5 @@
 # Full Stack Airbnb Clone with Next.js 14, React, TailwindCSS, Prisma, PostgreSQL, NextAuth, Shadcn/UI
 
-Demos below:
-- [Authentication](https://youtu.be/6uORlMD71Ro)
-- [Navigate users](https://youtu.be/Ebqf4f2WLk8)
-- [List a property](https://youtu.be/-C3pOLcC3sg)
-- [Manage your related](https://youtu.be/xgdxA3PRTU0)
-- [Search functionalities](https://youtu.be/iuMfDX36xNg)
-- [Dark mode and responsiveness](https://youtu.be/YPbablL1-L4)
-
 Current features:
 - Authentication with NextAuth includes: credential, GitHub, and Google. (UX: When a user is created by the credential method, automatically log them in afterward.)
 - Handling authentication errors with Sonner: Providing informative feedback to users
